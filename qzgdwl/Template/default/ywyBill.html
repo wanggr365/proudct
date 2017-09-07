@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8">
+	<title>&nbsp;泉州广电网络</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name = "format-detection" content = "telephone=no">
+
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="[!CSS]mui.min.css">
+	<!--App自定义的css-->
+	<link rel="stylesheet" type="text/css" href="[!CSS]app.css"/>
+
+    <link rel="apple-touch-icon-precomposed" href="[!IMG]apple-touch-icon-114x114.png">
+    <script src="[!JS]jquery-2.1.4.js"></script>	
+	<SCRIPT src="[!JS]qzgdwlSearch.js" type="text/JavaScript" > </SCRIPT>
+	<SCRIPT src="[!JS]function.js" type="text/JavaScript"></SCRIPT>
+	<script src="[!JS]mui.min.js"></script>
+	<script src="[!JS]echarts-all.js"></script>
+		
+    <script type="text/JavaScript">
+		//var Request = new Object(); 			
+		//Request = GetRequest(); 
+		$(document).ready(function() { 
+			$.showIndicator();
+			$.ajax({
+				type:'post',
+				  url: "index.php?m=qzgdwl&a=queryBillYwy",
+				  context: document.body,
+				  dataType:'json',  
+				  data:"accountNo={$accountNo}",
+				  success: function(json){
+						var totalAmount=0;
+						var amountList=[];
+						var monthList=[];
+						
+						var l = json.length;
+							var j = 0;
+							var k = 0;
+							for(var i=l-2;i>=0 && k<4;i--){
+								k++;
+								
+								var cycle = json[i].BILLCYCLE.substr(0,4)+"-"+json[i].BILLCYCLE.substr(4,2);
+								$("#tbBill").append('<tr style=\"width:100%; border-bottom: 2px solid rgba(212, 206, 197, 0.36);height: 50px;\"><td class=\"tdBill\" style=\"text-align:left;width:50%\">' + cycle + '</td>' + '<td class=\"tdBill\" style=\"text-align:right;width:50%\">' + json[i].AMOUNT + '元</td>'  + '</tr>' );
+								totalAmount += parseInt(json[i].AMOUNT);
+								amountList.push(parseInt(json[i].AMOUNT));
+								
+								var month= parseInt(json[i].BILLCYCLE.substr(4,2))+"月";
+								monthList.push(month);
+								
+							}
+							
+							var tmparray = [amountList[0],amountList[1],amountList[2],amountList[3]];
+							
+							$("#ywyBalance").html(json[0].BALANCE);
+							$("#cust_name").html("{$cust_name}");	
+							$("#totalAmount").html(totalAmount + "元");	
+							
+							// 柱状图初始化数据
+							var getOption = function(chartType) {
+				var chartOption =  {
+					
+					grid: {
+						x: 35,
+						x2: 10,
+						y: 30,
+						y2: 25
+					},
+					toolbox: {
+						show: false,
+						feature: {
+							mark: {
+								show: true
+							},
+							dataView: {
+								show: true,
+								readOnly: false
+							},
+							magicType: {
+								show: true,
+								type: ['bar']
+							},
+							restore: {
+								show: true
+							},
+							saveAsImage: {
+								show: true
+							}
+						}
+					},
+					calculable: false,
+					xAxis: [{
+						type: 'category',
+						data: [monthList[0],monthList[1],monthList[2],monthList[3]]
+					}],
+					yAxis: [{
+						type: 'value',
+						splitArea: {
+							show: true
+						}
+					}],
+					series: [{
+						name: '消费额',
+						type: chartType,
+						data:[amountList[0],amountList[1],amountList[2],amountList[3]]
+					}]
+				};
+				return chartOption;
+			};
+			var byId = function(id) {
+				return document.getElementById(id);
+			};
+			var barChart = echarts.init(byId('barChart'));
+			barChart.setOption(getOption('bar'));
+			
+				  }
+			});	
+	});
+	
+	function goUrl(){
+		window.location.href = "index.php?m=qzgdwl&a=qzgdwlChargeList&unionid={$unionid}";
+	}
+	
+	function goBack1(){
+		window.location.href = "index.php?m=qzgdwl&a=qzgdwlIndex&unionid={$unionid}";
+	}
+    </script>
+  </head>
+  <body>
+  <div id="page-label-input" class="page">
+  <div class="content">
+	<div id="fixedtop" class="mui-content-padded" style="margin:0px">
+		<img src="[!IMG]lszdBG.jpg" style="height:20%;width:100%"/>
+		<span id="cust_name" style="position: absolute;top: 8%;left: 12%;color: white;font-size: 1.0rem;"></span>
+		<span id="balanceLabel" style="position: absolute;top: 4%;left: 45%;color: white;font-size: 1.2rem;">余额</span>
+		<span id="ywyBalance" style="position: absolute;top: 10%;left: 38%;color: white;font-size: 2.0rem;font-weight:bold;"></span>
+		<span id="currency" style="position: absolute;top: 11%;left: 65%;color: white;font-size: 0.8rem;">元</span>
+		<a href="javascript:void(0);" onclick="goUrl();" style="position: absolute; top:16%;left: 38%;  color: white; font-size: 1.0rem;color:#0894ec;font-weight:bold">（点击缴费）</a>
+	</div>
+	<div id="displayChar" class="mui-content-padded" style="margin:0px;margin-top:-2%";>
+		<table style="width:100%;background-color:#f0ede8;border-top: 6px solid #e7dcca;">
+			<tr>
+				<td style="width:60%">
+						<div class="chart" id="barChart" style="width:100%;height:200px"></div>
+				</td>
+				<td style="width:40%;text-align:center;">
+						<p>最近四个月消费</p>
+						<p id="totalAmount"></p>
+				</td>
+			<tr>
+		</table>
+	</div>
+	
+	<div id="displayDetail" class="mui-content-padded" style="margin:0px;background-color:#f0f0f0;">
+		<table id="tbBill"  style="width:80%;margin:0px 10%  10%;color:#927777" >
+		</table>	
+	</div>
+	
+			
+		
+		
+	
+	<script>
+			
+		</script>
+	
+  </div>
+  </div>
+    <script src="[!JS]light7.js"></script>
+    <script src="[!JS]light7-swiper.js"></script>
+    <script src="[!JS]light7-city-picker.js"></script>
+    <script src="[!JS]light7-swipeout.js"></script>
+    <script src="[!JS]demos.js?r=201603281"></script>
+  </body>
+</html>
+
+

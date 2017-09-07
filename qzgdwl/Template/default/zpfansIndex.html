@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+
+<meta name="screen-orientation" content="">
+<title>30万微信粉丝转盘感恩回馈活动</title>
+<link rel="stylesheet" href="[!CSS]zp/weui1.css"/>
+<link rel="stylesheet" type="text/css" href="[!CSS]zp/zpfansIndex.css">
+<style>
+* {
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+-khtml-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+user-select:none;
+}
+#hdgz-main {display:none;}
+.tjcg-main { width:100%;height: 100%; max-width: 640px; margin: 0 auto; background-color: rgba(0,0,0,0.7) ; background-size: 100% 100%;position:absolute;overflow:hidden;*zoom:1;z-index:10;left:center;top:0; }
+.tjcg-main .close_tjcg{width:31px;height:31px;position:absolute;top:24%;right:3.5%;}
+</style>
+</head>
+<body>
+<div class="main" id="main">
+	<!-------------活动规则-------------->
+    <div class="tjcg-main" id="hdgz-main">
+    	<img src="[!IMG]zp/zpfans_rule.jpg" style="position: absolute;top: 25%;width: 90%;left:5%; z-index:6;"/>
+    	<div class="close_tjcg" id="close_rule" style="z-index:6;" onclick="closeRule();"><img src="[!IMG]zp/close_1.png" /></div>
+    </div>
+	<span id="rule" style="position:absolute;right:4%;top:2.7%;font-size:20px;color:red;font-family:Microsoft SongTi;font-weight:bold;border-bottom:1px solid white;z-index:6;" onclick="showRule()">活动规则 >></span>
+	<div class="close_tjcg" id="close_jp" style="z-index:6;"><img src="[!IMG]zp/close_1.png" /></div>
+
+	<div class="mask1"></div>
+	
+	<div class="container" id="container"></div>
+	
+	<input id='unionid' type="text" class="mui-input-clear mui-input" style="display:none;" value="{$unionid}">
+	<div class="mask" id="mask">
+		<span id="start"><a href="index.php?m=zpfans&a=zpfansTurnplate"><img src="[!IMG]zp/a2.png"></a></span>	
+		<span id="start_piv"><a href="index.php?m=zpfans&a=zpfansRecord"><img src="[!IMG]zp/a3.png"></a></span>	
+	
+		
+		<if condition="$is_binding eq 0"> <!--未绑定-->
+			<span id="start_piv"><a href="index.php?m=qzgdwl&a=qzgdwlLogin"><img src="[!IMG]zp/a4.png"></a></span>
+		<elseif condition="$is_binding eq 1">
+			<span id="start_piv" style="visibility:hidden;"><a href="index.php?m=qzgdwl&a=qzgdwlLogin"><img src="[!IMG]zp/a1.png"></a></span>
+		</if>
+		
+	</div>
+
+
+	<div class="toast">
+		<div id="toast_success" style="display: none;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<i class="weui_icon_toast weui_icon_toast_success"></i>
+				<p class="weui_toast_content">识别成功</p>
+			</div>
+		</div>
+		<div id="toast_error" style="display: none;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<i class="weui_icon_toast weui_icon_toast_error"></i>
+				<p class="weui_toast_content">活动还未开始</p>
+			</div>
+		</div>
+
+		
+		
+
+		<!-- loading toast -->
+		<div id="loadingToast" class="weui_loading_toast" style="display: none;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<div class="weui_loading">
+					<div class="weui_loading_leaf weui_loading_leaf_0"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_1"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_2"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_3"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_4"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_5"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_6"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_7"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_8"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_9"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_10"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_11"></div>
+				</div>
+				<p class="weui_toast_content">数据加载中,<br>请您稍后</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="[!JS]zp/Block.js"></script>
+<script type="text/javascript" src="[!JS]zp/jquery.min.js"></script>
+<script type="text/javascript" src="[!JS]zp/jweixin-1.0.0.js"></script>
+<script>
+	$('body').on('touchmove', function (event) {
+		event.preventDefault();
+	});
+	/*$("#toast_error .weui_toast_content").html('测试^^<br>先练练手');
+	$('#toast_error').show();
+	setTimeout(function(){
+		$('#toast_error').hide();
+	},3000);*/
+	
+	/*function onBridgeReady(){
+		WeixinJSBridge.call('hideOptionMenu');
+	}
+
+	if (typeof WeixinJSBridge == "undefined"){
+		if( document.addEventListener ){
+			document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		}else if (document.attachEvent){
+			document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+			document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		}
+	}else{
+		onBridgeReady();
+	}*/
+	
+	var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+   
+	var oContainer = document.getElementById('container');
+	var block = new Block(oContainer);
+	block.init();
+	//window.location
+	//alert(parseInt((block.sum + 1)*2/block.scaleH));
+	var mask = document.getElementById('mask');
+	var start = document.getElementById('start');
+	
+	start.onclick = function(){
+		<if condition="(($zpfansUserInforRow['draw_num'] eq 0) OR ($zpfansUserInforRow['draw_num'] lt 0))  AND ($is_binding eq 1) ">
+			$("#toast_error .weui_toast_content").html('今天次数已用完！');
+			
+			$('#toast_error').show();
+			setTimeout(function(){
+				$('#toast_error').hide();
+			},2000);
+			return false;
+		<elseif condition="(($zpfansUserInforRow['draw_num'] eq 0) OR ($zpfansUserInforRow['draw_num'] lt 0)) AND ($is_binding eq 0) "/>
+			$("#toast_error .weui_toast_content").html('今天您摇转盘的次数已用完，可前往绑定机顶盒增加次数！');
+			$('#toast_error').show();
+			
+			setTimeout(function(){
+				$('#toast_error').hide();
+			},2000);
+			return false;			
+		</if>
+	}
+	
+	function qhbStart(){
+		$('#rule').hide();
+		$.ajax({
+			type:'post',
+			url: "index.php?m=qhb&a=qhbMoney",
+			data: "unionid=" + document.getElementById("unionid").value,
+			context: document.body,
+			dataType:'json',
+			success: function(json){
+				$("#loadingToast").hide();
+				block.value = parseInt(json.value);
+				block.start();
+				mask.style.display = 'none';
+			}
+		});	
+	}
+	
+	function showRule(){
+		$('#hdgz-main').fadeIn();
+	}
+
+	function closeRule(){
+		$('#hdgz-main').fadeOut();
+	}
+	
+</script>
+
+
+</body></html>

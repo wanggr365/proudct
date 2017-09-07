@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html style="font-size: 120px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+<title>我摇到的奖品</title>
+<style>
+
+#hdgz-main {display:none;}
+.tjcg-main { width:100%;height: 100%; max-width: 640px; margin: 0 auto; background-color: rgba(0,0,0,0.7) ; background-size: 100% 100%;position:absolute;overflow:hidden;*zoom:1;z-index:10;left:center;top:0; }
+.tjcg-main .close_tjcg{width:31px;height:31px;position:absolute;top:24%;right:3.5%;}
+</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" type="text/css" href="[!CSS]zp/main.css">	
+	<script src="[!JS]zp/jquery.min.js"></script>
+	<script src="[!JS]zp/qhbRecord.js"></script>
+		
+		
+	
+	<script>
+	
+	
+		
+	$(function(){	
+ 		$("#width img").css("height",($(window).height()));
+		//$(".scroll img").css("width",($(window).width()));
+		//	$(".zjxx ul").css("height",($(window).height()/1.12));
+	
+	});
+	
+	function goZpfansIndex(){
+		window.location.href = "index.php?m=zpfans&a=zpfansIndex";
+	}
+	
+	function showRule(){
+		$('#hdgz-main').fadeIn();
+	}
+
+	function closeRule(){
+		$('#hdgz-main').fadeOut();
+	}
+
+	</script></head>
+	
+	
+	<body>
+	
+	<!-------------活动规则-------------->
+    <div class="tjcg-main" id="hdgz-main">
+    	<img src="[!IMG]/zp/zpfans_rule.jpg" style="position: absolute;top: 25%;width: 90%;left:5%; z-index:6;"/>
+    	<div class="close_tjcg" id="close_rule" style="z-index:6;" onclick="closeRule();"><img src="[!IMG]zp/close_1.png" /></div>
+    </div>
+	<span id="rule" style="position:absolute;right:4%;top:2.7%;font-size:20px;color:red;font-family:Microsoft SongTi;font-weight:bold;border-bottom:1px solid white;z-index:6;" onclick="showRule()">活动规则 >></span>
+	<div class="close_tjcg" id="close_jp" style="z-index:6;"></div>
+	
+	
+	<div class="close_tjcg"  >
+		<img src="[!IMG]/zp/myAward.png" style=" position: absolute; top: 14%;   left: 8%;    width: 84%;    border-radius: 20px;    height: 61%;z-index:0">
+	</div>
+			
+	
+	<div id="width" "=""><img src="[!IMG]zp/bg4.jpg" style="height: 100%;"></div>
+		<div class="zjxx" style="height: 35%;">
+			<ul style="height: 35%; top:26%;">
+				<?php $i=1; ?>
+				<foreach name="zpfansCltuserpraiseRow" item="rr">
+				<li>
+					<p class="one"><?php echo $i++; ?></p>		
+					<!-- <i><img src="[!IMG]zp/p1.png"></i> -->
+					
+					<if condition="($rr['prizeid'] eq 1)" >
+						<i><img src="[!IMG]zp/0.png"></i>					
+					<elseif condition="($rr['prizeid'] eq 2)"/>
+						<i><img src="[!IMG]zp/2.png"></i>
+					<elseif condition="($rr['prizeid'] eq 3)"/>
+						<i><img src="[!IMG]zp/1.png"></i>
+					<elseif condition="($rr['prizeid'] eq 4)"/>
+						<i><img src="[!IMG]zp/3.png"></i>						
+					<elseif condition="($rr['prizeid'] eq 5)"/>
+						<i><img src="[!IMG]zp/4.png"></i>	
+					<elseif condition="($rr['prizeid'] eq 6)"/>
+						<i><img src="[!IMG]zp/5.png"></i>							
+					</if>	
+					<p class="nameAndTime">
+						<span  style="line-height: 1em; font-family:Microsoft Kaiti; text-align:center;">{$rr.date}</span>
+						<span style="line-height: 1em; font-family:Microsoft Kaiti; text-align:center;"><br>&nbsp;{$rr.praisename}</span>
+					</p>
+					<p class="jp"><span></span></p>
+				</li>	
+				</foreach>				
+			</ul>
+		</div>
+	
+	<div   id="goQhbIndex" >
+		<img src="[!IMG]/zp/yes.png" onclick="goZpfansIndex()";  style=" position: absolute; top: 79%;   left: 28%;    width: 41%;    border-radius: 20px;    height: 11%;z-index:0">
+	</div>
+	
+
+
+</body></html>

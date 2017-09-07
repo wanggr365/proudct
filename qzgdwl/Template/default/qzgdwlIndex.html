@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>&nbsp;泉州广电网络</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name = "format-detection" content = "telephone=no">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="[!CSS]mui.min.css?v={$version}">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="[!CSS]app.css?v={$version}"/>
+		<?php
+			set_time_limit(0);
+		?>
+		<script>
+		/*function onBridgeReady(){
+			WeixinJSBridge.call('hideOptionMenu');
+		}
+
+		if (typeof WeixinJSBridge == "undefined"){
+			if( document.addEventListener ){
+				document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+			}else if (document.attachEvent){
+				document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+				document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+			}
+		}else{
+			onBridgeReady();
+		}*/
+		</script>
+		<style>
+			/*跨webview需要手动指定位置*/
+			
+			.mui-plus header.mui-bar {
+				display: none!important;
+			}
+			.mui-plus .mui-bar-nav~.mui-content {
+				padding: 0!important;
+			}
+			
+			.mui-plus .plus{
+				display: inline;
+			}
+			
+			.plus{
+				display: none;
+			}
+			
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			.mui-popover {
+				height: 300px;
+			}
+			
+			.icon-grzx{
+				padding: 2px 18px;
+			}
+			
+			
+		</style>
+	</head>
+
+	<body>
+
+		
+		<div id="middlePopover" class="mui-popover" 
+		<if condition="$userRow['binding_num'] gt 1">
+		style="max-height:{$userRow['binding_num']*70}px"
+		</if>
+		>
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<foreach name="userMoreRow" item="um">
+							<if condition="$um['cust_code'] eq $userRow['cust_code']"><li class="mui-table-view-cell"><a href="#" style="text-decoration:underline;">{$um.cust_hideName}(<span style="color:red;">当前</span>)</a>
+							<else/>
+							<li class="mui-table-view-cell"><a href="#" onclick="changeCust('{$um.cust_name}({$um.cust_code})',{$um.cust_code})" style="text-decoration:underline;">{$um.cust_hideName}({$um.cust_code})</a>
+							</if>
+						</foreach>
+						<li class="mui-table-view-cell"><a href="index.php?m=qzgdwl&a=qzgdwlLogin&unionid={$unionid}&more=1" style="text-decoration:underline;">新账号绑定</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<div class="mui-content">
+		
+			<div  id ="fixedtop" class="card" style="margin-left:0px; margin-top:0px;font-size:1em;">
+			
+				<a href="index.php?m=qzgdwl&a=qzgdwlPersonal&unionid={$unionid}"/>
+				<if condition="$userRow">			
+					<img src="[!IMG]titleIndexBf.jpg?v={$version}" style="position:relative;margin-left:0px; margin-top:0px;width:100%;height:100%;" />	
+					<div id="msisdn" style="position: absolute;top: 2.5%;left: 11%;color:#fefbff">****</div>	
+					<div  id ="balance" style="position: absolute;top: 12%;left: 17%;font-size: 1.7em;color:#fefbff">--</div>	
+					
+					<div style="position: absolute;top: 2%;left: 67%;color:#fefbff">姓名：{$userRow['cust_hideName']}</div>	
+					<div style="position: absolute;top: 5.8%;left: 66%;font-size: 9px;color:#fefbff">编号：{$userRow['cust_code']}</div>	
+					<div style="position: absolute;top: 12%;left: 65%;font-size: 11px;color:#fefbff">地址：<?php if(mb_strlen($userRow['address'])>18){echo $userRow['address1'];} else{echo $userRow['address'];}?></div>	
+				<else/>
+				
+					<img src="[!IMG]titleIndexBf2.jpg?v={$version}" style="position:relative;margin-left:0px; margin-top:0px;width:100%;" />	
+					<table style="position: absolute;top:2%;margin: 2% 5%;">
+					<tr>
+							<td rowspan="5" style="width:30%;padding-right:6%;"> 
+								<img src="[!IMG]logoIndex.png?v={$version}" width="100" height="100" />
+							</td>
+							
+							<td >
+									<div style="text-decoration:underline;color:#ffffff;font-weight:bold;">点击绑定广电账号,即可开通：</div>
+							</td>
+						</tr>
+						<tr>
+							<td><div style="color:#ffffff;">·充值缴费、账户余额查询，</div></td>
+						</tr>
+						<tr>
+							<td><div style="color:#ffffff;">·产品订购、历史账单查询，</div></td>
+						</tr>
+						<tr>
+							<td><div style="color:#ffffff;">·故障申报等高级功能。</div></td>
+						</tr>
+						
+						<tr>
+							<td></td>
+						</tr>
+					</table>
+					
+				</if>
+				</a>	
+					
+	
+					
+					
+					
+						<if condition="$userRow">
+							<if condition="$userRow['binding_num'] neq 1">
+								
+								
+								<a href="#middlePopover" style="position: absolute;top: 17%;left: 46%;color:#fefbff;font-size:15px;">切换账号</a>
+								
+							<else />
+								
+								<a href="index.php?m=qzgdwl&a=qzgdwlLogin&unionid={$unionid}&more=1" style="position: absolute;top: 17%;left: 47%;color:#fefbff;font-size:15px;">新账号绑定</a>
+								
+							</if>
+						</if>
+
+				
+				
+			</div>
+			
+			<div id ="navList1" style="background-color:#efefef;border-bottom:2px solid #d1d1d1;">
+				<a href="index.php?m=qzgdwl&a=qzgdwlDphd"><img src="[!IMG]dphd.png?v={$version}" style="width:30%; margin-left:15%;margin-bottom:2%"/></a>
+				<img src="[!IMG]tpfgf2.jpg?v={$version}" style=" margin-left:4%;"/>
+				<a href="index.php?m=yyt&a=yytIndex"><img src="[!IMG]fjwd.png?v={$version}" style="width:30%;margin-left:4%;margin-bottom:2%"/></a>
+			</div>
+					
+			<div id="navList2" class="mui-slider" style="margin-top:0px;width:90%;margin-left:5%;margin-right:5%;font-size:0.7em" >
+				<div class="mui-slider-group" >
+					
+					<div class="mui-slider-item" >
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=jfs&a=sjJfs">
+									<img class="icon-grzx" src="[!IMG]1.png?v={$version}" />
+									<div class="mui-media-body"  style="color:#4b4b4b;">充值缴费</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=qzgdwl&a=ywyBill&unionid={$unionid}">
+									 <img class="icon-grzx" src="[!IMG]2.png?v={$version}" />
+									<div class="mui-media-body" style="color:#4b4b4b;">历史账单</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=qzgdwl&a=qzgdwlPdcx">
+									<img class="icon-grzx" src="[!IMG]3.png?v={$version}" />
+									<div class="mui-media-body" style="color:#4b4b4b;">频道查询</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=qzgdwl&a=qzgdwlTicketList&unionid={$unionid}">
+									<img class="icon-grzx " src="[!IMG]9.png?v={$version}" />
+									<div class="mui-media-body" style="color:#4b4b4b;">优惠券</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=qzgdwl&a=qzgdwlScanQRCardno&unionid={$unionid}">
+									<img class="icon-grzx" src="[!IMG]5.png?v={$version}" />
+									<div class="mui-media-body" style="color:#4b4b4b;">扫描绑定</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=qzgdwl&a=qzgdwlMenuActivity">
+									<img class="icon-grzx" src="[!IMG]zxhd.png?v={$version}" />
+									<div class="mui-media-body" style="color:#4b4b4b;">最新活动</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+								<a href="index.php?m=qzgdwl&a=qzgdwlBusi&unionid={$unionid}">
+									<img class="icon-grzx" src="[!IMG]zxbl2.png?v={$version}" />
+									<div class="mui-media-body" style="color:#4b4b4b;">在线办理</div>
+								</a>
+							</li>
+							
+							<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=qzgdwl&a=qzgdwlSelf&unionid={$unionid}">
+									<img class="icon-grzx" src="[!IMG]7.png?v={$version}" />
+									<div class="mui-media-body" style="color:#4b4b4b;">自助诊断</div>
+								</a>
+							</li>
+							
+						</ul>
+					</div>
+					<div class="mui-slider-item" >
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=qzgdwl&a=qzgdwlFault&unionid={$unionid}">
+									<img class="icon-grzx" src="[!IMG]6.png?v={$version}" />
+									<div class="mui-media-body" style="color:#4b4b4b;">报故障</div>
+								</a>
+							</li>
+							
+						</ul>
+					</div>
+
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			
+			<div  id ="navList3" >
+				<div style="background-color:#d9d9d9;border:5px ;color:#777777;border:5px solid #d9d9d9">
+					<h4 style="margin-left:5%;font-size:12px;margin-top:1%;">   爱家专区（高清互动宽带）</h4>
+				</div>
+				
+		        <ul class="mui-table-view mui-grid-view mui-grid-9"  style="width:90%;margin-left:5%;margin-right:5%;">
+				
+					<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3"  >
+								<a href="index.php?m=qzgdwl&a=productOrder&unionid={$unionid}&cust_name={$userRow['cust_name']}&mobile1={$userRow['mobile1']}&cust_name={$userRow['cust_name']}" style="border-right:1px solid rgba(222, 221, 220, 0.43);">
+									<img class="icon-grzx" src="[!IMG]tcyy.png?v={$version}" style="width:80%;"/>
+									<div class="mui-media-body" style="color:#006eb2;margin-top: 0px;">套餐预约</div>
+								</a>
+					</li>
+							
+					<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=qzgdwl&a=qzgdwlProductDetail" style="border-right:1px solid rgba(222, 221, 220, 0.43);">
+									<img class="icon-grzx" src="[!IMG]tcxq.png?v={$version}" style="width:80%;" />
+									<div class="mui-media-body" style="color:#006eb2;margin-top: 0px;">套餐详情</div>
+								</a>
+					</li>
+
+					<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+								<a href="index.php?m=qzgdwl&a=qzgdwlBusinessList&unionid={$unionid}" style="border-right:1px solid rgba(222, 221, 220, 0.43);">
+									<img class="icon-grzx" src="[!IMG]bljd.png?v={$version}" style="width:80%;" />
+									<div class="mui-media-body" style="color:#006eb2;margin-top: 0px;">办理进度</div>
+								</a>
+					</li>
+
+					<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" id="tel">
+								<a href="#" >
+									<img class="icon-grzx" src="[!IMG]fwrx.png?v={$version}" style="width:80%;" />
+									<div class="mui-media-body" style="color:#006eb2;margin-top: 0px;">服务热线</div>
+								</a>
+					</li>
+		            
+		            
+		        </ul> 
+			</div>
+			
+
+			<?php $fa_pic = "ajdsapp.png?v={$version}"; $fa_pic_arr = explode("_",$fa_pic); $fa_pic_num = count($fa_pic_arr);?>
+			<div class="mui-collapse-content">
+							<div id="slider" class="mui-slider">
+								<div class="mui-slider-group mui-slider-loop">
+									<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+									
+									<div class="mui-slider-item mui-slider-item-duplicate">
+										<a href="index.php?m=jfs&a=sjJfs">
+											<img src="[!IMGU]<?php echo $fa_pic_arr[0];  ?>">
+										</a>
+									</div>
+									<foreach name="fa_pic_arr" item="fa_pic_a">
+									<div class="mui-slider-item">
+										<a href="index.php?m=jfs&a=sjJfs">
+											<img src="[!IMGU]{$fa_pic_a}">
+										</a>
+									</div>
+									</foreach>
+									
+									<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+									<div class="mui-slider-item mui-slider-item-duplicate">
+										<a href="index.php?m=jfs&a=sjJfs">
+											<img src="[!IMGU]<?php echo $fa_pic_arr[$fa_pic_num-1];  ?>">
+										</a>
+									</div>
+								</div>
+								<div class="mui-slider-indicator">
+									<div class="mui-indicator mui-active"></div>
+									<for start="1" end="$fa_pic_num">
+									<div class="mui-indicator"></div>
+									</for>
+								</div>
+							</div>
+			</div>
+
+		        
+		</div>
+		
+		
+			
+			
+	</body>
+	<script src="[!JS]mui.min.js?v={$version}"></script>
+	<script src="[!JS]jquery-2.1.4.js?v={$version}"></script>	
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		function alertMsg(){
+			mui.toast('栏目建设中，敬请期待！');
+		}
+		
+		function alertChihuo(){
+			//mui.toast('4月20日10点正式开始！');
+		}
+		
+		function changeCust(cust,cust_code){
+			var btnArray = ['取消', '确定'];
+			mui.confirm(cust , '切换账号至', btnArray, function(e) {
+				if (e.index == 1) {
+					mui.toast('切换中，请稍后..');
+					window.location.href = "index.php?m=qzgdwl&a=qzgdwlChange&unionid={$unionid}&cust_code=" + cust_code;
+				}else {
+					return false;
+				}
+			});
+		}
+		
+		$(document).ready(function(){ 
+			var acctNo = '{$userRow['accountno']}';
+			var msisdn =  '{$userRow['mobile1']}';
+			
+			if(typeof(msisdn)!="undefined" ){
+				msisdn = msisdn.toString();
+				var length = msisdn.length;
+				if(length == 11){
+					msisdn = msisdn.substr(0,3) + "****"+msisdn.substr(7,4);				
+				}
+				document.getElementById("msisdn").innerHTML = msisdn;
+			}
+			
+			
+			
+			
+			if(typeof(acctNo)!="undefined" ){
+				$.ajax({
+				type:'post',
+				  url: "index.php?m=qzgdwl&a=getAcctBalance",
+				  context: document.body,
+				  dataType:'json',  
+				  data:"acctNo={$userRow['accountno']}",
+				  success: function(result){
+						//mui.alert("success");
+						var obj = result;
+						var balance  =obj.BALANCE;
+						balance = balance.substr(0,balance.length-1);
+						document.getElementById("balance").innerHTML =  balance;
+						
+						}
+				});
+			
+			}
+			
+			
+		}); 
+		
+		
+		//客服电话
+		document.getElementById("tel").addEventListener('tap', function() {
+			if(mui.os.plus){
+				plus.device.dial("96311");
+			}else{
+				location.href = 'tel:96311';
+			}
+			
+		});
+		
+	</script>
+</html>

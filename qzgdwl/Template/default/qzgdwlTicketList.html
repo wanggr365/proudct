@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>泉州广电网络</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="[!CSS]mui.min.css?v={$version}">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="[!CSS]app.css?v={$version}" />
+	</head>
+
+	<body>
+		<div class="mui-content">
+		
+		<div id="fixedtop" class="mui-content-padded" style="margin:0px">
+			<img src="[!IMG]yhqBG.jpg?v={$version}" style="width:100%"/>
+		</div>
+	
+		<div id="card_unuse">
+			<input id='unionid' type="text" class="mui-input-clear mui-input" style="display:none;" value="{$unionid}">	
+			<h1  style="font-size: 17px;font-weight: 500;line-height: 44px;width: 100%;display: block;text-align: center;white-space: nowrap;  color: #7D7A7A;margin-bottom: -14px;padding-left:10px;padding-top:0;">我的优惠券（点击使用）</h1>
+			
+			<?php $i = 0; ?>
+				<foreach name="cardRow" item="card">
+				<if condition="$card['card_status'] eq '0'">
+					<?php $i++; ?>
+					
+					<div class="unuse" onClick="alterMsg('{$card.id}','{$card.card_no|substr=-4,4}');" style="margin-left:5%;margin-right:5%;margin-bottom:1%;position:relative">
+						<img src="[!IMG]yhq_unuse.png" style="width:100%;margin-top:2%;">
+						<p style="position: absolute;top: 34%;left: 30%;font-size:12px;">{$card.card_name}&nbsp;&nbsp;&nbsp;&nbsp;（卡号：******{$card.card_no|substr=-4,4}）</p>
+						<p style="position: absolute;top: 61%;left: 30%;overflow: visible;font-size:12px;">有效期：{$card.card_expiredate}&nbsp;|&nbsp;{$card.card_remark}</p>
+					</div>
+									
+				</if>
+				</foreach>
+				<?php if($i == 0){
+					echo "<div class=\"mui-card\" style=\"margin: 10px;\"> <ul class=\"mui-table-view mui-table-view-chevron\" style=\"margin-bottom:3%;margin-top:3%;margin-left:0%;text-align:center;\">
+					<li class=\"mui-table-view-cell mui-media\">
+					您当前无可用优惠券
+					</li>
+	
+					</ul></div>";
+				} ?>
+			
+		</div>
+		
+		<div id="card_used">
+			<h1  style="font-size: 17px;font-weight: 500;line-height: 44px;width: 100%;display: block;text-align: center;white-space: nowrap;  color: #7D7A7A;margin-bottom: -14px;padding-left:10px;padding-top:22px;">我已使用的优惠券</h1>
+				<?php $i = 0; ?>
+				<foreach name="cardRow" item="card">
+				<if condition="$card['card_status'] eq '1'">
+					<?php $i++; ?>
+				
+					<div class="used"  style="margin-left:5%;margin-right:5%;margin-bottom:2%;position:relative">
+						<a href="index.php?m=qzgdwl&a=ywyCharge&acctNo={$userRow['accountno']}&unionid={$unionid}">
+						<img src="[!IMG]yhq_used.png" style="width:100%;margin-top:2%;">
+						<p style="position: absolute;top: 34%;left: 30%;font-size:12px;">{$card.card_name}&nbsp;|&nbsp;{$card.card_useddate}</p>
+						<p style="position: absolute;top: 61%;left: 30%;overflow: visible;font-size:12px;">来源：{$card.card_remark}</p>
+						</a>
+					</div>
+					
+				</if>
+				</foreach>
+				
+				<?php if($i == 0){
+					echo "<div class=\"mui-card\" style=\"margin: 10px;\"> <ul class=\"mui-table-view mui-table-view-chevron\" style=\"margin-bottom:3%;margin-top:3%;margin-left:0%;text-align:center;\">
+					<li class=\"mui-table-view-cell mui-media\">
+					您没有已用优惠券
+					</li>
+	
+					</ul></div>";
+				} ?>
+		</div>
+			
+		</div>
+		<script src="[!JSL]mui.min.js?v={$version}"></script>
+		<script src="[!JSL]mui.enterfocus.js?v={$version}"></script>
+		<script src="[!JSL]app.js?v={$version}"></script>
+		<script src="[!JS]jquery-2.1.4.js?v={$version}"></script>	
+		<script src="[!JS]function.js?v={$version}"></script>	
+		<script>
+			var tagSure = 0;
+			function alterMsg(id,card){
+				if(tagSure !=0){
+					return false;
+				}
+				var btnArray = ['取消', '确定'];
+				mui.confirm('充值账户：<b>' + '{$userRow.cust_name}' + '</b>'  , '确定使用尾号' + card + '充值卡', btnArray, function(e) {
+					tagSure = 1;
+					if (e.index == 1) {
+						$.ajax({
+							type:'post',
+							url: "index.php?m=qzgdwl&a=qzgdwlTicketCzkSure",
+							context: document.body,
+							dataType:'json',
+							data:"id=" + id + "&unionid=" + BASEtrim(document.getElementById("unionid").value),
+							success: function(json){
+								tagSure = 0;
+								if(json.code == "0"){
+									if(json.msg == '卡号或密码不正确'){
+										return mui.alert(json.msg+'，详询客服电话96311', function() {
+											//document.getElementById("abc").innerHTML = json.msg;
+										});
+									}else{
+										return mui.alert(json.msg, function() {
+										location.reload();
+										});
+									}
+								}else if(json.code == "2"){
+									return mui.alert(json.msg, function() {
+										location.reload();
+									});
+								}else if (json.code == "1"){
+									mui.alert(json.msg, function() {
+										location.reload();
+										//location.href = "index.php?m=qzgdwl&a=ywyCharge&acctNo={$userRow['accountno']}"+"&unionid="+BASEtrim(document.getElementById("unionid").value);
+									});
+								}
+							}
+						});
+					}else{
+						tagSure = 0;
+						return false;
+					}
+				})
+			}
+		</script>
+	</body>
+
+</html>
