@@ -31,6 +31,17 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$setting = $model->where($condition)->getField('item_key,item_value');
 		$this->assign(C('AIMEE_PREFIX'),$setting);
 		
+		$_SESSION['mgr_addr_id'] = '116017';	
+		$_SESSION['unionid'] = 'oj8Hfvt-3U6l-ZfG6Vyp6bdFXf9I';
+		$_SESSION['openid'] = 'odrEdt4KBaxcWlnEB4YCkkyWe0nU#';	
+		
+		if(!$_SERVER['version']){
+			$_SERVER['version'] =$this->getVersion();			
+		}
+		$this->assign("version",$_SERVER['version']);
+		
+		
+		
 		$this->assign("DiyField",$this->GetDiyField(26));
 		$useragent = addslashes($_SERVER['HTTP_USER_AGENT']);
 		if(strpos($useragent, 'MicroMessenger') == false && strpos($useragent, 'Windows Phone') == false ){
@@ -352,38 +363,37 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
     }
 	
 	public function ywyIndex(){
+		$unionid=$_SESSION['unionid'];
+		$openid=$_SESSION['openid'];
+		
+		
 		$this->is_session();
+		$this->getGridNo();
 		$this->display(C('HOME_DEFAULT_THEME').':ywyIndex');
     }
 	
 	public function is_session(){
-		$unionid = $_GET['unionid'];
-		$openid = $_GET['openid'];
-		if($unionid){
-			$_SESSION['unionid'] = $unionid;
-		}
-		if($openid){
-			$_SESSION['openid'] = $openid;
-		}
-		if(!$_SESSION['own_org_id']){
-			//$url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ae00a2623048bf1&redirect_uri=http://www.968816.com.cn/oauth2_openid_ywy.php&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
-			//echo "<script>";  
-			//echo "window.location.href=\"".$url."\"";  
-			//echo "</script>"; 
+		
+		$unionid=$_SESSION['unionid'];
+		$openid=$_SESSION['openid'];
+		
+		
+		if(!$_SESSION['own_org_id']||!$_SESSION['boss_name']||!$_SESSION['boss_no']){	
 			$ywy = M('Ywy');
 			$unionidArr = array();
 			$unionidArr['unionid'] = $unionid;
 			$ywyRow = $ywy->where($unionidArr)->select();
-			//echo $ywyRow[0]['is_confirm'];
-			//print_r($ywyRow);
 			if($ywyRow && $unionid){
 				if($ywyRow[0]['is_confirm'] == 1){
-					$_SESSION['own_org_id'] = $ywyRow[0]['own_org_id'];		
+					$_SESSION['own_org_id'] = $ywyRow[0]['own_org_id'];	
+				    $this->assign("boss_name",$ywyRow[0]['boss_name']);
+					$this->assign("boss_no",$ywyRow[0]['boss_no']);
 				}else{
 					$this->display(C('HOME_DEFAULT_THEME').':ywyLogin');
 				}
 				//echo 123;
 			}else{
+				
 				$this->display(C('HOME_DEFAULT_THEME').':ywyLogin');
 			}
 		}
@@ -708,15 +718,60 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		}
 	}
 	
+	public function ywyLoginSubmit(){
+		$result = array();
+		$unionid = $_SESSION['unionid'];
+		if($_SESSION['unionid']){
+			$data = array();			
+			$phone = $_POST['phone'];
+			$auto_login = $_POST['auto_login'];
+			$password = md5($this->post_check($_POST['password']));
+			$agentUser = M('ywy');
+			$ywyUserRow = $agentUser->getByPhone($phone);
+			if($ywyUserRow && $ywyUserRow['confirm'] == 1){
+				if ($password == $ywyUserRow['password']){
+					$_SESSION['phone'] = $ywyUserRow['phone'];
+					$_SESSION['org'] = $ywyUserRow['org'];
+					$_SESSION['org_type'] = $ywyUserRow['org_type'];		
+					$this->assign("ywyUserRow",$ywyUserRow);
+					$result['code'] = 1;
+					$result['msg'] = "登录成功！";
+					$ywyUser->where(array('phone'=>$phone))->setField(array('unionid'=>$unionid,'auto_login'=>$auto_login));
+					$this->ywySaveLog("登录成功！");
+					echo $this->json($result);
+				}else{
+					$result['code'] = 2;
+					$result['msg'] = "用户名或密码错误！";
+					echo $this->json($result);
+				}
+			}elseif($ywyUserRow && $ywyUserRow['confirm'] == 0){
+				$result['code'] = 2;
+				$result['msg'] = "该手机号尚未注册！";
+				echo $this->json($result);
+			}else{
+				$result['code'] = 2;
+				$result['msg'] = "用户名或密码错误！";
+				echo $this->json($result);
+			}
+		}else{
+			$result['code'] = 0;
+			$result['msg'] = "操作超时！";
+			echo $this->json($result);
+		}
+	}
+	
+	
 	public function ywyLogin(){		
-		$unionid = $_GET['unionid'];
-		$openid = $_GET['openid'];
+		$unionid = $_POST['unionid'];
+		$openid = $_POST['openid'];
 		if($unionid){
 			$_SESSION['unionid'] = $unionid;
 		}
 		if($openid){
 			$_SESSION['openid'] = $openid;
 		}
+		print_r("ywyLogin参数unionid:".$unionid);
+		
 		$ywy = M('Ywy');
 		$unionidArr = array();
 		$unionidArr['unionid'] = $unionid;
@@ -736,6 +791,14 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 			$this->display(C('HOME_DEFAULT_THEME').':ywyLogin');
 		}
 	}
+	
+	public function ywyLogout(){		
+		$_SESSION['unionid'] = "";
+		$_SESSION['openid'] = "";
+		$this->display(C('HOME_DEFAULT_THEME').':ywyLogin');
+		
+	}
+	
 	
 	public function ywyUnBunding(){
 		$result = array();
@@ -1061,6 +1124,25 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		
 	}
 	
+	public function callHttp($param){
+		//$json=file_get_contents($param);
+		//$result = urldecode($json);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $param);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$output = curl_exec($ch);
+		curl_close($ch);
+		$result = urldecode($output);
+		
+		$data = str_replace("gb2312","utf-8",$result);
+		
+		return $data;
+		
+		
+	}
+	
 	private function json($array){
     	$this->arrayRecursive($array, 'urlencode', true);
 		$json = json_encode($array);
@@ -1084,6 +1166,336 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 			}
 		}
 	}
+	
+	public function getVersion(){
+		$file = "version.txt";
+		$data = json_decode(file_get_contents($file));
+		return $data->version;          	 	
+		if (!$data->version) {
+			 return $data->version;
+		}else {
+		 return '10';
+		}
+		
+	}
+	
+	public function getGridNo()
+	{
+		$this->assign("unionid",$_SESSION['unionid']);
+		$this->assign("openid",$_SESSION['openid']);
+		
+		$unionid = $_SESSION['unionid'];
+		$openid = $_SESSION['openid'];
+		
+					
+			$ywy2wg = M('ywy2wg')->where("unionid='$unionid' ")->select();
+			if($ywy2wg && $unionid){
+				if($ywy2wg[0]['MGR_ADDR_ID']){
+					
+					$this->assign("gridId",$ywy2wg[0]['MGR_ADDR_ID']);
+					
+					
+					if(!$_SESSION['displayGridId']||!$_SESSION['displayGridName']){
+						$this->assign("displayGridId",$ywy2wg[0]['MGR_ADDR_ID']);
+						$this->assign("displayGridName",$ywy2wg[0]['MGR_ADDR_NAME']);
+					}else{
+						$this->assign("displayGridId",$_SESSION['displayGridId']);
+						$this->assign("displayGridName",$_SESSION['displayGridName']);
+					}
+					
+					$mgrAddrId = $ywy2wg[0]['MGR_ADDR_ID'];
+					$mgrAddrTree= M('mgr_addr_tree');
+					$gridInfo = $mgrAddrTree->where("PARENT_MGR_ADDR_ID='$mgrAddrId' or MGR_ADDR_ID='$mgrAddrId' ")->select();
+					if( $gridInfo ){
+						$this->assign("gridTree",$gridInfo);
+						$this->assign("gridTreeNodeNum",count($gridInfo));
+					}else{
+					//提示没有找到对应的网格信息
+				    }
+				}else{
+					//$this->display(C('HOME_DEFAULT_THEME').':ywyLogin'); 提示没有找到对应的网格信息
+				}
+			}else{
+				//$this->display(C('HOME_DEFAULT_THEME').':ywyLogin');
+			}
+		
+	}
+	
+	public function ywyChange(){		
+		$unionid = $_SESSION['unionid'];
+		$openid = $_SESSION['openid'];
+		
+		$displayGridId = $_GET['displayGridId'];
+		$displayGridName = $_GET['displayGridName'];
+		$_SESSION['displayGridId'] = $displayGridId; 
+		$_SESSION['displayGridName'] = $displayGridName; 
+
+		$this->ywySaveLog("切换账号至$displayGridId $displayGridName");	
+		$this->ywyIndex();
+	}
+	
+	public function queryindex(){
+		//参数获取
+		$stat_date = $_POST['stat_date'];
+		$grid_id = $_POST['grid_id'];
+		$unit_id ="";//默认为空
+		
+		$_SESSION['stat_date']=$stat_date;
+		$_SESSION['grid_id']=$grid_id;
+		
+		//接口调用
+		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/common/queryindex?stat_date=".$stat_date."&grid_id=".$grid_id;
+		$result = $this->callHttp($TOKEN_URL);
+		
+		
+		//print_r("queryindex 地址:".$TOKEN_URL);
+	
+	
+		//结果返回
+		echo json_encode($result);
+	}
+	
+	
+	
+	public function ywyMarketing(){
+		$unionid = $_SESSION['unionid'];
+		$openid = $_SESSION['openid'];
+		
+		
+		$this->is_session();
+		$result = $this->queryMarketingInfo();
+		$this->assign("marketingInfo",$result);
+		$this->display(C('HOME_DEFAULT_THEME').':ywyMarketing');
+    }
+	
+	public function ywyHoldinfo(){
+		$unionid = $_SESSION['unionid'];
+		$openid = $_SESSION['openid'];
+		
+		
+		$this->is_session();
+		$result = $this->queryHoldInfo();
+		$this->assign("holdInfo",$result);
+		$this->display(C('HOME_DEFAULT_THEME').':ywyHoldinfo');
+    }
+	
+	public function ywyMarketingTCDQDetail(){
+		$this->is_session();	
+		$this->display(C('HOME_DEFAULT_THEME').':ywyMarketingTCDQDetail');
+    }
+	
+	public function ywyMarketingZZZYDetail(){
+		$this->is_session();	
+		$this->display(C('HOME_DEFAULT_THEME').':ywyMarketingZZZYDetail');
+    }
+	
+	public function ywyHoldQFWTJDetail(){
+		$this->is_session();	
+		$this->display(C('HOME_DEFAULT_THEME').':ywyHoldQFWTJDetail');
+    }
+	public function ywyHoldQFTJXY1Detail(){
+		$this->is_session();	
+		$this->display(C('HOME_DEFAULT_THEME').':ywyHoldQFTJXY1Detail');
+    }
+	
+	public function ywyHoldQFTJDY1Detail(){
+		$this->is_session();	
+		$this->display(C('HOME_DEFAULT_THEME').':ywyHoldQFTJDY1Detail');
+    }
+	
+	public function ywyHoldZDBTDetail(){
+		$this->is_session();	
+		$this->display(C('HOME_DEFAULT_THEME').':ywyHoldZDBTDetail');
+    }
+	
+	
+	public function queryMarketingInfo()
+	{
+		$stat_date=$_SESSION['stat_date'];
+		$grid_id=$_SESSION['grid_id'];
+		$unit_id="";//默认为空
+			
+		//接口调用
+		$TOKEN_URL='http://192.168.160.122:7070/upsys_server/marketing/queryMarketingInfo?stat_date='.$stat_date."&grid_id=".$grid_id;
+		
+		//print_r("接口调用".$TOKEN_URL);
+		$result = $this->callHttp($TOKEN_URL);	
+		return $result;
+	}
+	
+	public function queryHoldInfo()
+	{
+		$stat_date=$_SESSION['stat_date'];
+		$grid_id=$_SESSION['grid_id'];
+		$unit_id="";//默认为空
+		
+		//接口调用
+		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholdinfo?stat_date=".$stat_date."&grid_id=".$grid_id;
+		$result = $this->callHttp($TOKEN_URL);	
+		return $result;
+	}
+	
+	
+	public function queryMarketingTCDQDetail()
+	{
+		$stat_date=$_SESSION['stat_date'];
+		$grid_id=$_SESSION['grid_id'];
+		$unit_id=0;//默认0
+		$ifdq=$_POST['ifdq'];
+		$busi_type=$_POST['busi_type'];
+		$subtype=$_POST['subtype'];
+		$query_type="TCDQ";
+		
+		//接口调用
+		
+		$paraStr="?stat_date=".$stat_date;
+		$paraStr .="&grid_id=".$grid_id;
+		$paraStr .="&unit_id=".$unit_id;
+		$paraStr .="&ifdq=".$ifdq;
+		$paraStr .="&busi_type=".$busi_type;
+		$paraStr .="&subtype=".$subtype;
+		$paraStr .="&query_type=".$query_type;
+		
+		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/marketing/queryMarketingDetail".$paraStr;
+		$result = $this->callHttp($TOKEN_URL);	
+		
+		
+		echo $result;
+	}
+	
+	public function queryMarketingZZZYDetail()
+	{
+		$stat_date=$_SESSION['stat_date'];
+		$grid_id=$_SESSION['grid_id'];
+		$unit_id=0;//默认0
+		$busi_type=$_POST['busi_type'];
+		$staff=$_POST['staff'];
+		$query_type="ZZZY";
+		
+			//接口调用
+		
+		$paraStr="?stat_date=".$stat_date;
+		$paraStr .="&grid_id=".$grid_id;
+		$paraStr .="&unit_id=".$unit_id;
+		$paraStr .="&busi_type=".$busi_type;
+		$paraStr .="&staff=".$staff;
+		$paraStr .="&query_type=".$query_type;
+		
+		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/marketing/queryMarketingDetail".$paraStr;
+		$result = $this->callHttp($TOKEN_URL);	
+		
+		
+		
+		echo $result;
+	}
+	
+	public function queryHoldQFWTJDetail()
+	{
+		$stat_date=$_SESSION['stat_date'];
+		$grid_id=$_SESSION['grid_id'];
+		$unit_id=0;//默认0
+		$qfmonth=$_POST['qfmonth'];
+		$busi_type=$_POST['busi_type'];
+		$subtype=$_POST['subtype'];
+		$querytype="QFWTJ";
+		
+		$paraStr="?stat_date=".$stat_date;
+		$paraStr .="&grid_id=".$grid_id;
+		$paraStr .="&unit_id=".$unit_id;
+		$paraStr .="&qfmonth=".$qfmonth;
+		$paraStr .="&busi_type=".$busi_type;
+		$paraStr .="&subtype=".$subtype;
+		$paraStr .="&querytype=".$querytype;
+		
+		//print_r("queryHoldQFWTJDetail参数:".$paraStr);
+		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholddetail".$paraStr;
+		$result = $this->callHttp($TOKEN_URL);	
+		
+		
+		
+		echo $result;
+	}
+	
+	public function queryHoldQFTJXY1Detail()
+	{
+		$stat_date=$_SESSION['stat_date'];
+		$grid_id=$_SESSION['grid_id'];
+		$unit_id=0;//默认0
+		$qfmonth2=$_POST['qfmonth2'];
+		$busi_type=$_POST['busi_type'];
+		$subtype=$_POST['subtype'];
+		$querytype="QFTJXY1";
+		
+		$paraStr="?stat_date=".$stat_date;
+		$paraStr .="&grid_id=".$grid_id;
+		$paraStr .="&unit_id=".$unit_id;
+		$paraStr .="&qfmonth2=".$qfmonth2;
+		$paraStr .="&busi_type=".$busi_type;
+		$paraStr .="&subtype=".$subtype;
+		$paraStr .="&querytype=".$querytype;
+		
+		//print_r("queryHoldQFWTJDetail参数:".$paraStr);
+		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholddetail".$paraStr;
+		$result = $this->callHttp($TOKEN_URL);	
+		
+		
+		
+		echo $result;
+	}
+	
+	
+	public function queryHoldQFTJDY1Detail()
+	{
+		$stat_date=$_SESSION['stat_date'];
+		$grid_id=$_SESSION['grid_id'];
+		$unit_id=0;//默认0
+		$bill_stop_month=$_POST['bill_stop_month'];
+		$busi_type=$_POST['busi_type'];
+		$subtype=$_POST['subtype'];
+		$querytype="QFTJDY1";
+		
+		$paraStr="?stat_date=".$stat_date;
+		$paraStr .="&grid_id=".$grid_id;
+		$paraStr .="&unit_id=".$unit_id;
+		$paraStr .="&bill_stop_month=".$bill_stop_month;
+		$paraStr .="&busi_type=".$busi_type;
+		$paraStr .="&subtype=".$subtype;
+		$paraStr .="&querytype=".$querytype;
+		
+		//print_r("queryHoldQFWTJDetail参数:".$paraStr);
+		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholddetail".$paraStr;
+		$result = $this->callHttp($TOKEN_URL);	
+		
+		echo $result;
+	}
+	
+	
+	public function queryHoldZDBTDetail()
+	{
+		$stat_date=$_SESSION['stat_date'];
+		$grid_id=$_SESSION['grid_id'];
+		$unit_id=0;//默认0
+		$user_stop_month=$_POST['user_stop_month'];
+		$busi_type=$_POST['busi_type'];
+		$subtype=$_POST['subtype'];
+		$querytype="ZDBT";
+		
+		$paraStr="?stat_date=".$stat_date;
+		$paraStr .="&grid_id=".$grid_id;
+		$paraStr .="&unit_id=".$unit_id;
+		$paraStr .="&user_stop_month=".$user_stop_month;
+		$paraStr .="&busi_type=".$busi_type;
+		$paraStr .="&subtype=".$subtype;
+		$paraStr .="&querytype=".$querytype;
+		
+		//print_r("queryHoldQFWTJDetail参数:".$paraStr);
+		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholddetail".$paraStr;
+		$result = $this->callHttp($TOKEN_URL);	
+		
+		
+		echo $result;
+	}
+
 
 
 }

@@ -227,8 +227,8 @@ em{ color:#ff0000; font-weight:bold;}
     height: 35px;
 	width: 20%;
     text-align: center;
-    border-right: 1px solid #888;
-    border-bottom: 1px solid #888;
+    border-right: 1px solid #11cbb6;
+    border-bottom: 1px solid #11cbb6;
 }
 
 .thBill {
@@ -237,8 +237,8 @@ em{ color:#ff0000; font-weight:bold;}
 	width: 20%;
 	font-weight:bold;
     text-align: center;
-    border-right: 1px solid #888;
-    border-bottom: 1px solid #888;
+    border-right: 1px solid #11cbb6;
+    border-bottom: 1px solid #11cbb6;
 }
 
 .thSubBill {
@@ -246,8 +246,8 @@ em{ color:#ff0000; font-weight:bold;}
     height: 35px;
 	width: 20%;
     text-align: center;
-    border-right: 1px solid #888;
-    border-bottom: 1px solid #888;
+    border-right: 1px solid #11cbb6;
+    border-bottom: 1px solid #11cbb6;
 }
 
 .thOrding {
@@ -256,8 +256,7 @@ em{ color:#ff0000; font-weight:bold;}
 	width: 16.67%;
 	font-weight:bold;
     text-align: center;
-    border-right: 1px solid #888;
-    border-bottom: 1px solid #888;
+    border: 1px solid #11cbb6;
 }
 
 .trBill td {
@@ -269,7 +268,7 @@ em{ color:#ff0000; font-weight:bold;}
 	HEIGHT: 20px;
 	white-space:normal;
 	background:#f7f7f7;
-	border-bottom: 1px solid #888;
+	border-bottom: 1px solid #11cbb6;
 	
 }
 
@@ -294,8 +293,8 @@ em{ color:#ff0000; font-weight:bold;}
 	text-decoration: none;
 	white-space:normal;
 	background:#f7f7f7;
-	border-bottom: 1px solid #888;
-    border-right: 1px solid #888;
+	border-bottom: 1px solid #11cbb6;
+    border-right: 1px solid #11cbb6;
 	table-layout:fixed;
 }
 
@@ -310,8 +309,8 @@ em{ color:#ff0000; font-weight:bold;}
     height: 35px;
 	width: 16.67%;
     text-align: center;
-    border-right: 1px solid #888;
-    border-bottom: 1px solid #888;
+    border-right: 1px solid #11cbb6;
+    border-bottom: 1px solid #11cbb6;
 }
 
 
@@ -332,9 +331,7 @@ em{ color:#ff0000; font-weight:bold;}
 }
 
 .ywyP1{
-   padding-left: .75rem;
-   position: relative;
-    margin: 0;
+	text-align:center;
     font-size: .9rem;
     line-height: 1.2;
     color: #6d6d72;
@@ -5771,7 +5768,7 @@ i.icon.theme-yellow {
     font-weight: bold;
     height: 40px;
     color: white;
-    background-color: #888;
+    background-color: #11cbb6;
 }
 
 .jmesa .highlight td {

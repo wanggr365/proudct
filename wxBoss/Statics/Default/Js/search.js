@@ -45,7 +45,7 @@ function queryByName()
 	  }*/
 	  $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',  
 				  data:"cust_name="+BASEtrim(document.getElementsByName("cust_name")[0].value),
@@ -64,7 +64,7 @@ function queryByCardno()
 	  
 	  $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',
 				  data:"cardno="+BASEtrim(document.getElementsByName("cardno")[0].value),
@@ -82,7 +82,7 @@ function queryByAddress()
 	  }
 	  $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',
 				  data:"cust_name="+BASEtrim(document.getElementsByName("cust_name")[0].value)+"&address="+BASEtrim(document.getElementsByName("address")[0].value),
@@ -101,7 +101,7 @@ function queryByCertno()
 	  }
 	  $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',
 				  data:"&cert_no="+BASEtrim(document.getElementsByName("cert_no")[0].value),
@@ -120,7 +120,7 @@ function queryByStbno()
 	  
 	  $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',
 				  data:"stbno="+BASEtrim(document.getElementsByName("stbno")[0].value),
@@ -139,7 +139,7 @@ function queryByMac()
 	  
 	  $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',
 				  data:"mac="+BASEtrim(document.getElementsByName("mac")[0].value),
@@ -159,7 +159,7 @@ function queryByPhone()
 	  
 	  $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',
 				  data:"phone="+BASEtrim(document.getElementsByName("phone")[0].value),
@@ -178,7 +178,7 @@ function queryByCustno1()
 	 
 	 $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',
 				  data:"resulttype=1&cust_no="+BASEtrim(document.getElementsByName("cust_no")[0].value),
@@ -195,7 +195,7 @@ function queryByCustno2()
 	 }
 	 $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',
 				  data:"resulttype=1&cust_no="+BASEtrim(document.getElementsByName("member_cust_no")[0].value),
@@ -212,7 +212,7 @@ function queryByCardno2()
 	 }
 	 $.ajax({
 	  	    type:'post',
-				  url: "wxBoss/index.php?m=index&a=query",
+				  url: "index.php?m=index&a=query",
 				  context: document.body,
 				  dataType:'text',
 				  data:"resulttype=1&cardno="+BASEtrim(document.getElementsByName("member_cardno")[0].value),
