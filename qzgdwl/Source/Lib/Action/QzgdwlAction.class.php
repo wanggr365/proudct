@@ -2612,7 +2612,7 @@ class QzgdwlAction extends Action {
 	}
 	
 	public function productOrderAdd(){
-		$business = M('Agent_business');
+		$business = M('business');
 		$data = array();
 		$data['unionid'] = $_SESSION['unionid'];
 		$result = array();
@@ -2622,11 +2622,11 @@ class QzgdwlAction extends Action {
 			$data['district'] = $_POST['district'];
 			$data['town'] = $_POST['town'];
 			$data['create_date'] = date('Y-m-d H:i:s',time());
-			$data['busi_type'] = substr($_POST['business'],0,10);
+			$data['busi_type'] = mb_substr($_POST['business'],0,11);
 			$data['busi_name'] = $_POST['name'];
 			$data['busi_phone'] = $_POST['phone'];
 			$data['phone'] = $_SESSION['phone'];
-			$data['busi_address'] = $_POST['address'];
+			$data['busi_address'] = $data['district'].$data['town'].$_POST['address'];
 			$data['busi_status1'] = '待处理';
 			$business->data($data)->add();
 			$result['code'] = 1;
