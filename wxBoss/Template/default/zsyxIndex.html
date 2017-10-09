@@ -802,51 +802,64 @@
 			if(typeof(dateValue)!="undefined" ){
 				$.ajax({
 				type:'post',
-				  url: "index.php?m=ywy&a=queryindex",
+				  url: "index.php?m=zsyx&a=queryindex",
 				  context: document.body,
 				  dataType:'json',  
 				  data:"stat_date="+dateValue+"&grid_id={$displayGridId}&unit_id=''",
 				  success: function(result){
-						var obj = eval ("(" + result + ")"); ;
+						var obj = eval ("(" + result + ")"); 
 						var new_ins_info= obj.new_ins_info;
-						var tmpValue = new_ins_info.dtv_ins_cnt;
-						document.getElementById("new_ins_info_dtv_ins_cnt").innerText= tmpValue;						
-						var tmpValue = new_ins_info.hd_ins_cnt;
-						document.getElementById("new_ins_info_hd_ins_cnt").innerText= tmpValue;
-						var tmpValue = new_ins_info.itv_ins_cnt;
-						document.getElementById("new_ins_info_itv_ins_cnt").innerText= tmpValue;
-						var tmpValue = new_ins_info.lan_ins_cnt;
-						document.getElementById("new_ins_info_lan_ins_cnt").innerText= tmpValue;
+						if(new_ins_info != null){
+							var tmpValue = new_ins_info.dtv_ins_cnt;
+						    document.getElementById("new_ins_info_dtv_ins_cnt").innerText= tmpValue;						
+						    var tmpValue = new_ins_info.hd_ins_cnt;
+						    document.getElementById("new_ins_info_hd_ins_cnt").innerText= tmpValue;
+						    var tmpValue = new_ins_info.itv_ins_cnt;
+						    document.getElementById("new_ins_info_itv_ins_cnt").innerText= tmpValue;
+						    var tmpValue = new_ins_info.lan_ins_cnt;
+						    document.getElementById("new_ins_info_lan_ins_cnt").innerText= tmpValue;
+						}
+						
 						
 						var rates=obj.rates;
-						var tmpValue = rates.dtv_ins_rate + rates.dtv_ins_unit;
-						document.getElementById("rates_dtv_ins_rate").innerText= tmpValue;
-						var tmpValue = rates.hd_rate + rates.hd_unit;
-						document.getElementById("rates_hd_rate").innerText= tmpValue;
-						var tmpValue = rates.itv_rate + rates.itv_unit;
-						document.getElementById("rates_itv_rate").innerText= tmpValue;
-						var tmpValue = rates.lan_ins_rate + rates.lan_ins_unit;
-						document.getElementById("rates_lan_ins_rate").innerText= tmpValue;
+						if(rates != null){
+							var tmpValue = rates.dtv_ins_rate + rates.dtv_ins_unit;
+							document.getElementById("rates_dtv_ins_rate").innerText= tmpValue;
+							var tmpValue = rates.hd_rate + rates.hd_unit;
+							document.getElementById("rates_hd_rate").innerText= tmpValue;
+							var tmpValue = rates.itv_rate + rates.itv_unit;
+							document.getElementById("rates_itv_rate").innerText= tmpValue;
+							var tmpValue = rates.lan_ins_rate + rates.lan_ins_unit;
+							document.getElementById("rates_lan_ins_rate").innerText= tmpValue;
+						
+						}
+						
 						
 						var net_ins_info= obj.net_ins_info;
-						var tmpValue = net_ins_info.dtv_ins_cnt;
-						document.getElementById("net_ins_info_dtv_ins_cnt").innerText= tmpValue;						
-						var tmpValue = net_ins_info.hd_ins_cnt;
-						document.getElementById("net_ins_info_hd_ins_cnt").innerText= tmpValue;
-						var tmpValue = net_ins_info.itv_ins_cnt;
-						document.getElementById("net_ins_info_itv_ins_cnt").innerText= tmpValue;
-						var tmpValue = net_ins_info.lan_ins_cnt;
-						document.getElementById("net_ins_info_lan_ins_cnt").innerText= tmpValue;
+						if(net_ins_info != null){
+							var tmpValue = net_ins_info.dtv_ins_cnt;
+							document.getElementById("net_ins_info_dtv_ins_cnt").innerText= tmpValue;						
+							var tmpValue = net_ins_info.hd_ins_cnt;
+							document.getElementById("net_ins_info_hd_ins_cnt").innerText= tmpValue;
+							var tmpValue = net_ins_info.itv_ins_cnt;
+							document.getElementById("net_ins_info_itv_ins_cnt").innerText= tmpValue;
+							var tmpValue = net_ins_info.lan_ins_cnt;
+							document.getElementById("net_ins_info_lan_ins_cnt").innerText= tmpValue;
+						}
+						
 						
 						var off_info= obj.off_info;
-						var tmpValue = off_info.dtv_off_cnt;
-						document.getElementById("off_info_dtv_off_cnt").innerText= tmpValue;						
-						var tmpValue = off_info.hd_off_cnt;
-						document.getElementById("off_info_hd_off_cnt").innerText= tmpValue;
-						var tmpValue = off_info.itv_off_cnt;
-						document.getElementById("off_info_itv_off_cnt").innerText= tmpValue;
-						var tmpValue = off_info.lan_off_cnt;
-						document.getElementById("off_info_lan_off_cnt").innerText= tmpValue;
+						if(off_info != null){
+							var tmpValue = off_info.dtv_off_cnt;
+							document.getElementById("off_info_dtv_off_cnt").innerText= tmpValue;						
+							var tmpValue = off_info.hd_off_cnt;
+							document.getElementById("off_info_hd_off_cnt").innerText= tmpValue;
+							var tmpValue = off_info.itv_off_cnt;
+							document.getElementById("off_info_itv_off_cnt").innerText= tmpValue;
+							var tmpValue = off_info.lan_off_cnt;
+							document.getElementById("off_info_lan_off_cnt").innerText= tmpValue;
+						}
+						
 					}
 				});
 			
