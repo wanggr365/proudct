@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>泉州广电网络</title>
+    <meta name="description" content="light7: Build mobile apps with simple HTML, CSS, and JS components.">
+    <meta name="author" content="任行">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="[!IMG]favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Google Web Fonts -->
+
+    <link rel="stylesheet" href="[!CSS]light7.css?r=201603281">
+    <link rel="stylesheet" href="[!CSS]demos.css">
+
+    <link rel="apple-touch-icon-precomposed" href="../assets/img/apple-touch-icon-114x114.png">
+    <script src="[!JS]jquery-2.1.4.js"></script>
+    <script>
+      //ga
+    </script>
+  </head>
+  <body>
+    <div class="page" id='page-bar'>
+  <header class="bar bar-nav">
+    <h1 class="title">客户查询</h1>
+  </header>
+  <div class="content">
+    <div class="list-block">
+      <ul>
+        <!-- Text inputs -->
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">客户编号</div>
+              <div class="item-input">
+                <input type="text" name="cust_code">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">客户姓名</div>
+              <div class="item-input">
+                <input type="text" name="cust_name">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">客户地址</div>
+              <div class="item-input">
+                <input type="text" name="address">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">联系电话</div>
+              <div class="item-input">
+                <input type="text" name="phone">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">身份证号</div>
+              <div class="item-input">
+                <input type="text" name="cert_no">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">智能卡号</div>
+              <div class="item-input">
+                <input type="text" name="cardno">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">机顶盒号</div>
+              <div class="item-input">
+                <input type="text" name="stbno">
+              </div>
+            </div>
+          </div>
+        </li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">MAC地址</div>
+              <div class="item-input">
+                <input type="text" name="mac">
+              </div>
+            </div>
+          </div>
+        </li>
+       
+      </ul>
+    </div>
+    <div class="content-block" style="margin: 0.55rem 0;">
+      <div class="row">
+        <div class="col-50" style="width: 28%;margin-left: 2%;"><a onclick="queryReset();" class="button button-big button-fill button-danger">重置</a></div>
+        <div class="col-50" style="width: 68%;margin-left: 2%;"><a onclick="queryCust();" class="button button-big button-fill button-danger" style="background-color: #3887E0;">查询</a></div>
+      </div>
+    </div>
+	<div style="text-align:center;"><p class="ywyP1">查询结果：</p></div>
+    <div class="list-block">
+		<ul>
+        <li class="item-content">
+          <div class="item-inner">
+			<div id="result" style="width:800px;"></div>
+          </div>
+        </li>  
+		</ul>
+    </div>
+  </div>
+</div>
+
+    <script src="[!JS]light7.js"></script>
+    <script src="[!JS]demos.js?r=201603281"></script>
+	<script src="[!JS]function.js" type="text/JavaScript"></script>
+	<script src="[!JS]ywySearch.js" type="text/JavaScript" > </script>
+  </body>
+</html>

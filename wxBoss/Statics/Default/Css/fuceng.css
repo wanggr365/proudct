@@ -1,0 +1,62 @@
+.fuceng {
+    width: 100%;
+    height: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    background-color: rgba(0,0,0,0.7);
+    background-size: 100% 100%;
+    position: absolute;
+    overflow: hidden;
+    z-index: 10;
+    left: center;
+    top: 0;
+    display: none;
+}
+
+.fuceng .ceng {
+    width: 80%;
+    height: 60%;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    /* background: url(../Images/zj_1.png) center; */
+    background-size: 100% 100%;
+    background-color: white;
+}
+
+.ceng h3 {
+    font-size: 3.2rem;
+    font-weight: bold;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    color: #e32d2c;
+    line-height: 140%;
+    text-align: center;
+    margin-top: 5%;
+}
+
+.ceng img{
+	width: 70%;
+    margin-left: 15%;
+    margin-top: -5%;
+}
+
+.ceng p {
+    font-size: 15px;
+    width: 90%;
+    height: auto;
+    margin: 2% auto 5% auto;
+    color: #000000;
+    line-height: 150%;
+    text-align: center;
+}
+
+
+.fuceng .close_ceng{
+	width: 31px;
+    height: 31px;
+    position: absolute;
+    top: 18%;
+    right: 6.5%;
+}

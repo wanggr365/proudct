@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>泉州广电网络</title>
+    <meta name="description" content="light7: Build mobile apps with simple HTML, CSS, and JS components.">
+    <meta name="author" content="任行">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Google Web Fonts -->
+
+    <link rel="stylesheet" href="[!CSS]zsyx/light7.css?r=201603281">
+    <link rel="stylesheet" href="[!CSS]zsyx/light7-swiper.css">
+    <link rel="stylesheet" href="[!CSS]zsyx/light7-swipeout.css">
+    <link rel="stylesheet" href="[!CSS]zsyx/demos.css">
+	
+	<link rel="stylesheet" href="[!CSS]zsyx/agentCSS/common.css"/>
+    <link rel="stylesheet" href="[!CSS]zsyx/agentCSS/login.css"/>
+	
+	<script src="[!JS]zsyx/agentJS/jquery.js"></script>
+	<script src="[!JS]zsyx/agentJS/layer.m.js"></script>
+	<script src="[!JS]zsyx/common.js"></script>
+	<script src="[!JS]zsyx/function.js"></script>
+	<link href="[!CSS]zsyx/agentCSS/layer.css" type="text/css" rel="styleSheet" >
+	
+
+    <link rel="apple-touch-icon-precomposed" href="[!IMG]zsyx/apple-touch-icon-114x114.png">
+    <script src="[!JS]zsyx/light7.js"></script>
+	<script src="[!JS]zsyx/jquery-2.1.4.js"></script>		
+	<SCRIPT src="[!JS]zsyx/ywySearch.js" type="text/JavaScript" > </SCRIPT>
+	<SCRIPT src="[!JS]zsyx/function.js" type="text/JavaScript"></SCRIPT>
+    <script>
+     function login(){	
+	var phone = $("#phone");
+	var password = $("#password");
+	var resultResult = checkPassword(password.val());
+	var result = isPhoneNum(phone.val());
+	if(result && resultResult){
+		var formdata=$('#LoginForm').serialize();
+		var delay=layer.open({type:2,shadeClose:false});
+		$.post('index.php?m=zsyx&a=zsyxLoginSubmit',formdata,function(json){
+			layer.close(delay);
+			if(json.code == 0){
+				layer.open({
+					btn: ['好的'],
+					content: '<p style="text-align:center;">' + json.msg +'</p>',
+					shadeClose: false
+				});
+				setInterval('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ae00a2623048bf1&redirect_uri=http%3a%2f%2fwww.968816.com.cn%2fqzgdwl%2findex.php%3fm%3dlogin%26a%3dindex&response_type=code&scope=snsapi_base&state=agent%26agentLogin#wechat_redirect',3000);
+			}else{
+				layer.open({
+					btn: ['好的'],
+					content: '<p style="text-align:center;">' + json.msg +'</p>',
+					shadeClose: false
+				});						
+				if(json.code == 1){			
+					setInterval('window.location.href = "index.php?m=zsyx&a=zsyxIndex"',1500);
+				}
+			}
+		},'json');
+	}
+}
+    </script>
+  </head>
+  <body>
+	<div class="login_bg">
+        <div id="logo">
+            <img src="[!IMG]zsyx/agentIMG/logo.png" alt=""/>
+        </div>
+        <form id="LoginForm">
+            <div class="userName">
+                <lable>手机号：</lable>
+                <input type="text" name="phone" id="phone" placeholder="请输入手机号" pattern="[0-9A-Za-z]{6,16}" required/>
+            </div>
+            <div class="passWord">
+                <lable>密&nbsp;&nbsp;&nbsp;码：</lable>
+                <input type="password" name="password" id="password" placeholder="请输入密码" pattern="[0-9A-Za-z]{6,25}" required/>
+            </div>
+            <div class="choose_box">
+                <div>
+                    <input type="checkbox" checked="checked" class="checkbox" value="1" name="auto_login"/>
+                    <lable>自动登录</lable>
+                </div>
+                <a href="index.php?m=agent&a=agentPassword">忘记密码</a>
+            </div>
+            <div class="login_btn" onclick="login();">登&nbsp;&nbsp;录</div>
+        </form>
+        <div class="other_login">
+            <div class="other"></div>
+            <span style="padding-top: 6px;"><a href="index.php?m=zsyx&a=zsyxRegister">注册</a></span>
+            <div class="other"></div>
+        </div>
+    </div>
+	
+	
+    
+
+    <script src="[!JS]zsyx/light7.js"></script>
+    <script src="[!JS]zsyx/light7-swiper.js"></script>
+    <script src="[!JS]zsyx/light7-city-picker.js"></script>
+    <script src="[!JS]zsyx/light7-swipeout.js"></script>
+    <script src="[!JS]zsyx/demos.js?r=201603281"></script>
+	
+	
+  </body>
+</html>

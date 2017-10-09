@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>泉州广电网络</title>
+    <meta name="description" content="light7: Build mobile apps with simple HTML, CSS, and JS components.">
+    <meta name="author" content="任行">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name = "format-detection" content = "telephone=no">
+
+    <!-- Google Web Fonts -->
+
+    <link rel="stylesheet" href="[!CSS]light7.css?r=201603281">
+    <link rel="stylesheet" href="[!CSS]light7-swiper.css">
+    <link rel="stylesheet" href="[!CSS]light7-swipeout.css">
+    <link rel="stylesheet" href="[!CSS]demos.css">
+    <link rel="stylesheet" href="[!CSS]fuceng.css">
+
+    <link rel="apple-touch-icon-precomposed" href="[!IMG]apple-touch-icon-114x114.png">
+    <script src="[!JS]jquery-2.1.4.js"></script>	
+	<SCRIPT src="[!JS]ywySearch.js" type="text/JavaScript" > </SCRIPT>
+	<SCRIPT src="[!JS]function.js" type="text/JavaScript"></SCRIPT>
+	<script>
+		var own_org_id = '{$own_org_id}';
+		var cust_code = '{$cust_code}';
+	</script>
+  </head>
+  <body>
+    <div id="page-label-input" class="page">
+  <header class="bar bar-nav">
+    <h1 class="title">账户充值缴费</h1>
+  </header>
+  <div class="content">
+    <div class="list-block">
+      <ul>
+        <!-- Text inputs -->
+        <li>
+          <div class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">充值金额：</div>
+              <div class="item-input">
+                <input type="number" name="money" placeholder="请输入充值金额">
+              </div>
+            </div>
+          </div>
+        </li>  			
+      </ul>
+    </div>
+	<div style="text-align:center;"><p class="ywyP1" style="text-align:left;margin:20px 0 0 5px;">注：单位为“元”，起充金额：10元。</p></div>
+	<div><a class="weui_btn_warn" onclick="getWXQR()">充值</a></div>
+  </div>
+<div class="fuceng" id="fuCeng">
+	<div class="ceng">
+		<!-- <h3>活动结束啦，谢谢您的参与，<br>充值卡将在3个工作日内陆续发放。</h3>		
+		<p>接下来还有更多的福利哦</p> -->		
+		<p style="font-size:20px;margin-top:3%;color:red;">微信扫一扫</p>
+		<img id="QR" src="[!IMG]space.gif.png"/>
+		<p id="titleQR"></p>
+	</div>
+	<div class="close_ceng" id="closeCeng" onclick="closeCeng();"><img src="[!IMG]close_1.png" /></div>
+</div>
+</div>
+    <script src="[!JS]light7.js"></script>
+    <script src="[!JS]light7-swiper.js"></script>
+    <script src="[!JS]light7-city-picker.js"></script>
+    <script src="[!JS]light7-swipeout.js"></script>
+    <script src="[!JS]demos.js?r=201603281"></script>
+  </body>
+</html>
