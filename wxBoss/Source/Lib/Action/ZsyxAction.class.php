@@ -1614,7 +1614,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$paraStr .="&subtype=".$subtype;
 		$paraStr .="&querytype=".$querytype;
 		
-		//print_r("queryHoldQFWTJDetail参数:".$paraStr);
+		print_r("queryHoldQFWTJDetail参数:".$paraStr);
 		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholddetail".$paraStr;
 		$result = $this->callHttp($TOKEN_URL);	
 		
