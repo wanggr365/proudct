@@ -209,20 +209,22 @@
 				  data:paraStr,
 				  success: function(json){
 					var obj = eval(json.zz_info);
-					
-					for(var i=0; i<obj.length; i++)  
-					{  	//联系电话	客户名	客户编号	地址	套餐名称	到期时间	业务分类	终端类型	套餐类型
-                    
-						$("#marketingDetailTable").append('<tr>'+
-						'<td>' + obj[i].phone + '</td>'  + 
-						'<td>' + obj[i].acct_name + '</td>'  + 
-						'<td>' + obj[i].acct_code + '</td>'  + 
-						'<td>' + obj[i].address + '</td>'  + 
-						'<td>' + obj[i].offer_name + '</td>'  + 
-						'<td>' + obj[i].terminal_type_name + '</td>'  + 
-						'<td>' + obj[i].offer_type + '</td>'  + 						
-						'</tr>' );
-					}  
+					if(typeof(obj) != "undefined"){
+						for(var i=0; i<obj.length; i++)  
+					    {  	//联系电话	客户名	客户编号	地址	套餐名称	到期时间	业务分类	终端类型	套餐类型
+                        
+					    	$("#marketingDetailTable").append('<tr>'+
+					    	'<td>' + obj[i].phone + '</td>'  + 
+					    	'<td>' + obj[i].acct_name + '</td>'  + 
+					    	'<td>' + obj[i].acct_code + '</td>'  + 
+					    	'<td>' + obj[i].address + '</td>'  + 
+					    	'<td>' + obj[i].offer_name + '</td>'  + 
+					    	'<td>' + obj[i].terminal_type_name + '</td>'  + 
+					    	'<td>' + obj[i].offer_type + '</td>'  + 						
+					    	'</tr>' );
+					    }
+					}
+					  
 					
 				  }
 			});	
