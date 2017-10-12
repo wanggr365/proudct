@@ -63,7 +63,7 @@
 	<script src="[!JS]zsyx/jquery-2.1.4.js?v={$version}"></script>	
 	<script>
 		mui.init({
-			swipeBack:true //启用右滑关闭功能
+			swipeBack:false //启用右滑关闭功能
 		});
 		
 		
@@ -71,10 +71,14 @@
 		
 			var obj = {$marketingInfo};
 			//var obj = {"info": {" offer_timeout_cnt ": "123","zz_info": "123"}};
-			var offer_timeout_cnt = obj.info.offerTimeoutCnt;
-			var zz_info = obj.info.zzInfo;
-			document.getElementById("offer_timeout_cnt").innerHTML = offer_timeout_cnt;
-			document.getElementById("zz_info").innerHTML = zz_info;
+			if(obj.info != null){
+				var offer_timeout_cnt = obj.info.offerTimeoutCnt;
+				var zz_info = obj.info.zzInfo;
+				document.getElementById("offer_timeout_cnt").innerHTML = offer_timeout_cnt;
+				document.getElementById("zz_info").innerHTML = zz_info;
+			
+			}
+				
 
 				//document.getElementById("msisdn").innerHTML = msisdn;
 				//if(typeof(msisdn)!="undefined" )

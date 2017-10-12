@@ -85,7 +85,7 @@
 	<script src="[!JS]zsyx/jquery-2.1.4.js?v={$version}"></script>	
 	<script>
 		mui.init({
-			swipeBack:true //启用右滑关闭功能
+			swipeBack:false //启用右滑关闭功能
 		});
 		
 		
@@ -93,13 +93,17 @@
 		
 			var obj = {$holdInfo};
 			//var obj = {"info": {" offer_timeout_cnt ": "123","zz_info": "123"}};
-			var debt_notstop_cnt = obj.info.debt_notstop_cnt;
-			var will_stop_less1month_cnt = obj.info.will_stop_less1month_cnt;
-			var will_stop_than1month_cnt = obj.info.will_stop_than1month_cnt;
+			if(obj.info != null){
+				var debt_notstop_cnt = obj.info.debt_notstop_cnt;
+				var will_stop_less1month_cnt = obj.info.will_stop_less1month_cnt;
+				var will_stop_than1month_cnt = obj.info.will_stop_than1month_cnt;
+				
+				document.getElementById("debt_notstop_cnt").innerHTML = debt_notstop_cnt;
+				document.getElementById("will_stop_less1month_cnt").innerHTML = will_stop_less1month_cnt;
+				document.getElementById("will_stop_than1month_cnt").innerHTML = will_stop_than1month_cnt;
 			
-			document.getElementById("debt_notstop_cnt").innerHTML = debt_notstop_cnt;
-			document.getElementById("will_stop_less1month_cnt").innerHTML = will_stop_less1month_cnt;
-			document.getElementById("will_stop_than1month_cnt").innerHTML = will_stop_than1month_cnt;
+			}
+				
 
 		}); 
 	</script>
