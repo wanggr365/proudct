@@ -38,6 +38,9 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		if(!$_SERVER['version']){
 			$_SERVER['version'] =$this->getVersion();			
 		}
+		if(!$_SERVER['InterfaceAddress']){
+			$_SERVER['InterfaceAddress'] = $this->getInterfaceAddress();	
+		}
 		
 		if(!$_SESSION['login']){
 			$_SESSION['login'] ='false';			
@@ -1417,8 +1420,8 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 	public function getVersion(){
 		$file = "version.txt";
 		$data = json_decode(file_get_contents($file));
-		return $data->version;          	 	
-		if (!$data->version) {
+		//return $data->version;          	 	
+		if ($data->version) {
 			 return $data->version;
 		}else {
 		 return '10';
@@ -1426,6 +1429,19 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		
 	}
 	
+	public function getInterfaceAddress(){
+		$file = "InterfaceAddress.txt";
+		$data = json_decode(file_get_contents($file));
+		
+		//print_r("读取内容：".$data."\n");
+		//print_r("地址：".$data->InterfaceAddress."\n");
+		if ($data->InterfaceAddress) {
+			 return $data->InterfaceAddress;
+		}else {
+		 return '192.168.160.123:7070';
+		}
+		
+	}
 	
 	
 	public function zsyxChange(){		
@@ -1451,7 +1467,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$_SESSION['grid_id']=$grid_id;
 		
 		//接口调用
-		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/common/queryindex?stat_date=".$stat_date."&grid_id=".$grid_id;
+		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/common/queryindex?stat_date=".$stat_date."&grid_id=".$grid_id;
 		$result = $this->callHttp($TOKEN_URL);
 		
 		
@@ -1523,7 +1539,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$unit_id="";//默认为空
 			
 		//接口调用
-		$TOKEN_URL='http://192.168.160.122:7070/upsys_server/marketing/queryMarketingInfo?stat_date='.$stat_date."&grid_id=".$grid_id;
+		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/marketing/queryMarketingInfo?stat_date=".$stat_date."&grid_id=".$grid_id;
 		
 		//print_r("接口调用".$TOKEN_URL);
 		$result = $this->callHttp($TOKEN_URL);	
@@ -1537,7 +1553,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$unit_id="";//默认为空
 		
 		//接口调用
-		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholdinfo?stat_date=".$stat_date."&grid_id=".$grid_id;
+		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/hold/queryholdinfo?stat_date=".$stat_date."&grid_id=".$grid_id;
 		$result = $this->callHttp($TOKEN_URL);	
 		return $result;
 	}
@@ -1563,7 +1579,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$paraStr .="&subtype=".$subtype;
 		$paraStr .="&query_type=".$query_type;
 		
-		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/marketing/queryMarketingDetail".$paraStr;
+		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/marketing/queryMarketingDetail".$paraStr;
 		$result = $this->callHttp($TOKEN_URL);	
 		
 		
@@ -1588,7 +1604,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$paraStr .="&staff=".$staff;
 		$paraStr .="&query_type=".$query_type;
 		
-		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/marketing/queryMarketingDetail".$paraStr;
+		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/marketing/queryMarketingDetail".$paraStr;
 		$result = $this->callHttp($TOKEN_URL);	
 		
 		
@@ -1614,8 +1630,10 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$paraStr .="&subtype=".$subtype;
 		$paraStr .="&querytype=".$querytype;
 		
-		print_r("queryHoldQFWTJDetail参数:".$paraStr);
-		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholddetail".$paraStr;
+		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/hold/queryholddetail".$paraStr;
+		
+		//print_r("queryHoldQFWTJDetail参数:".$TOKEN_URL);
+		
 		$result = $this->callHttp($TOKEN_URL);	
 		
 		
@@ -1642,7 +1660,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$paraStr .="&querytype=".$querytype;
 		
 		//print_r("queryHoldQFWTJDetail参数:".$paraStr);
-		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholddetail".$paraStr;
+		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/hold/queryholddetail".$paraStr;
 		$result = $this->callHttp($TOKEN_URL);	
 		
 		
@@ -1670,7 +1688,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$paraStr .="&querytype=".$querytype;
 		
 		//print_r("queryHoldQFWTJDetail参数:".$paraStr);
-		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholddetail".$paraStr;
+		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/hold/queryholddetail".$paraStr;
 		$result = $this->callHttp($TOKEN_URL);	
 		
 		echo $result;
@@ -1696,7 +1714,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$paraStr .="&querytype=".$querytype;
 		
 		//print_r("queryHoldQFWTJDetail参数:".$paraStr);
-		$TOKEN_URL="http://192.168.160.122:7070/upsys_server/hold/queryholddetail".$paraStr;
+		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/hold/queryholddetail".$paraStr;
 		$result = $this->callHttp($TOKEN_URL);	
 		
 		
