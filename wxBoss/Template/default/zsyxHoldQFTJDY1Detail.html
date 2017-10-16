@@ -184,7 +184,26 @@
 			</div>
 			
 
-		
+		<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				
+				<li class="mui-table-view-cell" id="custView2">
+					<a href="#" id="custView">关联至客户视图</a>
+				</li>
+				
+				<li class="mui-table-view-cell">
+					<a href="#">备注</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#">联系记录</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#picture"><b>取消</b></a>
+				</li>
+			</ul>
+		</div>
 		
 		
 
@@ -259,7 +278,8 @@
 					    	$("#marketingDetailTable").append('<tr>'+
 					    	'<td>' + obj[i].phone + '</td>'  + 
 					    	'<td>' + obj[i].acc_name + '</td>'  + 
-					    	'<td>' + obj[i].acc_code + '</td>'  + 
+					    	'<td><a href="#picture" class="mui-btn mui-btn-primary mui-btn-block mui-btn-outlined" style="padding: 5px 20px;">' + obj[i].acc_code +'</a></td>'+
+
 					    	'<td>' + obj[i].address + '</td>'  + 
 					    	'<td>' + obj[i].debt_amount + '</td>'  + 
 					    	'<td>' + obj[i].debt_month + '</td>'  + 						
@@ -284,6 +304,19 @@
         }
         return checkVal;
     }
+	
+	window.cust_code = ""; 
+	mui('body').on('tap', 'td>a', function() {
+			var a = this;
+			cust_code = a.innerText;
+	});
+	
+	
+	mui('#custView2').on('tap', 'a', function() {
+			var url="index.php?m=ywy&a=ywyIndex&cust_code="+cust_code;
+			window.location.href=url; 
+	});
+	
 	//js获取复选框的值
 	//function getVals(){
     //    var res = getCheckBoxRes('rds');
