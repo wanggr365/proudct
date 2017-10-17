@@ -904,6 +904,71 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		
 	}
 	
+	public function zsyxCustCommentAdd(){		
+		$unionid = $_SESSION['unionid'];
+		$openid = $_SESSION['openid'];
+		$result = array();
+		$result['code'] = -1;
+		
+		$cust_code = $_POST['cust_code'];
+		$cust_name = $_POST['cust_name'];
+		$msisdn = $_POST['msisdn'];
+		$household_type = $_POST['household_type'];
+		$family = $_POST['family'];
+		$housing_property = $_POST['housing_property'];
+		$is_gdwl_user = $_POST['is_gdwl_user'];
+		$tv = $_POST['tv'];
+		$broadband_operator = $_POST['broadband_operator'];
+		$net_expire = $_POST['net_expire'];
+		$net_desc = $_POST['net_desc'];
+		
+		$data['cust_code'] = $cust_code;
+		$data['cust_name'] = $cust_name;
+		$data['msisdn'] = $msisdn;
+		$data['household_type'] = $household_type;
+		$data['family'] = $family;
+		$data['housing_property'] = $housing_property;
+		$data['is_gdwl_user'] = $is_gdwl_user;
+		$data['tv'] = $tv;
+		$data['broadband_operator'] = $broadband_operator;		
+		$data['net_expire'] = $net_expire;
+		$data['net_desc'] = $net_desc;
+		
+		if($cust_code){
+			$custComment = M('cust_comment');
+		    $custCommentRow = $custComment->where("cust_code=".$cust_code)->select();
+		    if($custCommentRow){
+		    	$custComment->where(array('cust_code'=>$cust_code))->setField($data);
+				$result['code'] = 0;
+		    	$result['msg'] = "更新备注成功";
+		    	$this->agentSaveLog("更新备注成功");
+		    	
+		    }else{
+				
+		    	$custComment->add($data);
+				$result['code'] = 0;
+		    	$result['msg'] = "新增备注成功";
+		    	$this->agentSaveLog("新增备注成功");
+		    	
+		    }	
+			
+		}else{
+			$result['code'] = -1;
+			$result['msg'] = "异常报错-Err4008";
+			$this->agentSaveLog("异常报错-Err4008");
+			
+		}
+		
+		    
+		
+		
+		
+		echo $this->json($result);
+		
+		
+	}
+	
+	
 	public function zsyxRegisterAdd(){		
 		$unionid = $_SESSION['unionid'];
 		$openid = $_SESSION['openid'];
@@ -1532,6 +1597,36 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
     }
 	
 	
+	public function zsyxCustComment(){
+		$this->is_session();	
+		
+		$unionid=$_SESSION['unionid'];
+		$openid=$_SESSION['openid'];
+		
+		$cust_code =$_GET['cust_code']; 
+		$cust_name =$_GET['cust_name']; 
+		
+		if($cust_code){
+			$custComment = M('cust_comment');
+			$custCommentRow = $custComment->where(array('cust_code'=>$cust_code))->select();
+			if($custCommentRow){
+				if(!$custCommentRow[0]['cust_name']){
+					$custCommentRow[0]['cust_name']=$cust_name;
+				}	
+			}else{
+				$custCommentRow[0]['cust_name']=$cust_name;
+			}
+			
+		}else{
+			
+			$custCommentRow[0]['cust_name']=$cust_name;
+		}
+		$this->assign("custCommentRow",$custCommentRow);
+		$this->display(C('HOME_DEFAULT_THEME').':zsyxCustComment');
+    }
+	
+	
+	
 	public function queryMarketingInfo()
 	{
 		$stat_date=$_SESSION['stat_date'];
@@ -1605,6 +1700,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$paraStr .="&query_type=".$query_type;
 		
 		$TOKEN_URL="http://".$_SERVER['InterfaceAddress']."/upsys_server/marketing/queryMarketingDetail".$paraStr;
+		//print_r("url:".$TOKEN_URL."\n");
 		$result = $this->callHttp($TOKEN_URL);	
 		
 		

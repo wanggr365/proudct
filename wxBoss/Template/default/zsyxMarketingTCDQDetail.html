@@ -75,6 +75,12 @@
 								<option value="4">2个月</option>
 							</select>
 						</td>
+						
+						<td></td>
+						<td></td>
+						<td style="padding: 0px 10px;">
+							<button id="doSearch">查询</button>
+						</td>
 					</tr>
 					<tr style="border-bottom: 1px solid #dcd9d9;">
 						<td style="padding: 0px 10px;">
@@ -137,16 +143,7 @@
 						</td>
 					</tr>
 					
-					<tr style="border-bottom: 1px solid #dcd9d9;">
-						<td></td>
-						<td></td>
-						<td></td>
-						<td style="padding: 0px 10px;">
-							<button id="doSearch">查询</button>
-						</td>
-						
-						<td></td>
-					</tr>
+					
 				</table>
 				
 				
@@ -183,7 +180,7 @@
 					<a href="#" id="custView">关联至客户视图</a>
 				</li>
 				
-				<li class="mui-table-view-cell">
+				<li class="mui-table-view-cell" id="custComment">
 					<a href="#">备注</a>
 				</li>
 				<li class="mui-table-view-cell">
@@ -284,9 +281,16 @@
     }
 	
 	window.cust_code = ""; 
+	window.cust_name = ""; 
 	mui('body').on('tap', 'td>a', function() {
+	
 			var a = this;
 			cust_code = a.innerText;
+			
+			var column=parseInt($(this).parents('td').index())+parseInt(1);			 
+            var row = parseInt($(this).parents('tr').index()+1);
+			
+			cust_name=$("#marketingDetailTable").find("tr").eq(row-1).find("td").eq(column-2).text();
 	});
 	
 	
@@ -295,6 +299,10 @@
 			window.location.href=url; 
 	});
 	
+	mui('#custComment').on('tap', 'a', function() {
+			var url="index.php?m=zsyx&a=zsyxCustComment&cust_code="+cust_code+"&cust_name="+cust_name;
+			window.location.href=url; 
+	});
 	
 	//js获取复选框的值
 	//function getVals(){

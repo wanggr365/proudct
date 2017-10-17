@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>&nbsp;泉州广电网络</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name = "format-detection" content = "telephone=no">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="[!CSS]zsyx/mui.min.css?v={$version}">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="[!CSS]zsyx/app.css?v={$version}"/>
+		<link rel="stylesheet" type="text/css" href="[!CSS]zsyx/mui.picker.min.css?v={$version}" />
+		<link href="[!CSS]zsyx/agentCSS/layer.css" type="text/css" rel="styleSheet" >
+
+		
+		<?php
+			set_time_limit(0);
+		?>
+		<script src="[!JS]zsyx/agentJS/jquery.js"></script>
+		<script src="[!JS]zsyx/agentJS/layer.m.js"></script>
+		<script src="[!JS]zsyx/common.js"></script>
+		<script src="[!JS]zsyx/function.js"></script>
+		<style>
+			/*跨webview需要手动指定位置*/
+			
+			.mui-plus header.mui-bar {
+				display: none!important;
+			}
+			.mui-plus .mui-bar-nav~.mui-content {
+				padding: 0!important;
+			}
+			
+			.mui-plus .plus{
+				display: inline;
+			}
+			
+			.plus{
+				display: none;
+			}
+			
+			
+			
+		</style>
+	</head>
+
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<button id="submit" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">保存</button>
+			<h1 class="mui-title">备注</h1>
+		</header>
+				<form class="mui-input-group" id="custCommentForm" style="top:40px;">
+	  <p style="padding:11px 15px">联系人</p>
+	  <div class="mui-input-row" style="display:none;" >
+          <label>客户编号</label>
+          <input type="text" class="mui-input-clear" placeholder="" id="cust_code" name="cust_code">
+      </div>
+	  
+      <div class="mui-input-row">
+          <label>姓名</label>
+          <input type="text" class="mui-input-clear" placeholder="" id="cust_name" name="cust_name">
+      </div>
+      <div class="mui-input-row">
+          <label>电话</label>
+          <input type="text" class="mui-input-clear" placeholder="手机或固定电话" id="msisdn" name="msisdn" >
+      </div>
+	  <div class="mui-input-row">
+         <label>住户类型</label>
+			<select  class="mui-navigate-right" id="household_type" name="household_type" >
+				<option value="">请选择</option>  
+				<option value="自助">自助</option>
+				<option value="租户">租户</option>
+				<option value="中介">中介</option>
+				<option value="无">无</option>
+			</select>
+      </div>
+	  
+	  
+      <p style="padding:11px 15px">客户资料</p>    
+	  <div class="mui-input-row">
+         <label>家庭成员</label>
+			<select  class="mui-navigate-right" id="family" name="family">
+				<option value="">请选择</option>  
+				<option value="夫妻二人">夫妻二人</option>
+				<option value="租户">家有儿女</option>
+				<option value="家有儿女">家有老人</option>
+				<option value="家有老人儿女">家有老人儿女</option>
+				<option value="其它">其它</option>
+				<option value="无">无</option>
+			</select>
+      </div>
+	  
+	   <div class="mui-input-row">
+         <label>房屋性质</label>
+			<select class="mui-navigate-right" id="housing_property" name="housing_property">
+				<option value="">请选择</option>  
+				<option value="房产别墅">房产别墅</option>
+				<option value="房产小区">房产小区</option>
+				<option value="农居">农居</option>
+				<option value="商住两用">商住两用</option>
+				<option value="商铺">商铺</option>
+				<option value="农居回迁">农居回迁</option>
+				<option value="租赁房">租赁房</option>
+				<option value="廉租房">廉租房</option>
+				<option value="自留地">自留地</option>
+				<option value="无">无</option>	
+			</select>
+      </div>
+	  
+	  <div class="mui-input-row">
+         <label>是否广电用户</label>
+			<select class="mui-navigate-right" id="is_gdwl_user" name="is_gdwl_user">
+				<option value="">请选择</option>  
+				<option value="广电电视">广电电视</option>
+				<option value="广电宽带">广电宽带</option>
+				<option value="广电电视&宽带">广电电视&宽带</option>
+				<option value="他网">他网</option>
+				<option value="商铺">无</option>		
+			</select>
+      </div>
+	  
+	   <div class="mui-input-row">
+         <label>电视机</label>
+			<select class="mui-navigate-right" id="tv" name="tv">
+				<option value="">请选择</option>  
+				<option value="标清">标清</option>
+				<option value="高清">高清</option>
+				<option value="4K">4K</option>
+				<option value="商铺">无</option>		
+			</select>
+      </div>
+	  
+	  <p style="padding:11px 15px">他网信息</p>    
+	  <div class="mui-input-row">
+         <label>宽带运营商</label>
+			<select class="mui-navigate-right" id="broadband_operator" name="broadband_operator">
+				<option value="">请选择</option>  
+				<option value="电信">电信</option>
+				<option value="移动">移动</option>
+				<option value="联通">联通</option>
+				<option value="无宽带">无宽带</option>
+				<option value="长城">长城</option>
+				<option value="其它">其它</option>
+				<option value="无">无</option>
+			</select>
+      </div>
+	  
+	   <div class="mui-input-row" style="layout:fixed">
+         <label>他网到期时间</label>
+			<input  id='selDate' type="text" data-options='{"type":"date"}' class="mui-input-clear" placeholder="选择日期" id="net_expire" name="net_expire">
+      </div>
+      <div class="mui-input-row">
+          <label>他网描述</label>
+          <textarea   placeholder="他网套餐/价格" id="net_desc" name="net_desc"></textarea>
+      </div>
+  </form>
+				
+				
+				
+				
+			
+		
+		
+		
+			
+			
+	</body>
+	<script src="[!JS]zsyx/mui.min.js?v={$version}"></script>
+	<script src="[!JS]zsyx/jquery-2.1.4.js?v={$version}"></script>	
+	<script src="[!JS]zsyx/mui.picker.min.js?v={$version}"></script>		
+	<script>
+			(function($) {
+				$.init();
+				var delay=layer.open({type:2,shadeClose:false});
+				initFormValue();
+				layer.close(delay);
+				
+				
+				Date.prototype.Format = function (fmt) { //author: meizz 
+					var o = {
+						"M+": this.getMonth() + 1, //月份 
+						"d+": this.getDate(), //日 
+						"h+": this.getHours(), //小时 
+						"m+": this.getMinutes(), //分 
+						"s+": this.getSeconds(), //秒 
+						"q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+						"S": this.getMilliseconds() //毫秒 
+					};
+					if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+					for (var k in o)
+					if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+					return fmt;
+				}
+		
+		
+				var selDateValue = $('#selDate')[0];
+				//selDateValue.innerText = getTodayStr();
+				var btns = $('#selDate');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var optionsJson = this.getAttribute('data-options') || '{}';
+						var options = JSON.parse(optionsJson);
+						var id = this.getAttribute('id');
+						/*
+						 * 首次显示时实例化组件
+						 * 示例为了简洁，将 options 放在了按钮的 dom 上
+						 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+						 */
+						var picker = new $.DtPicker(options);
+						picker.show(function(rs) {
+							/*
+							 * rs.value 拼合后的 value
+							 * rs.text 拼合后的 text
+							 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+							 * rs.m 月，用法同年
+							 * rs.d 日，用法同年
+							 * rs.h 时，用法同年
+							 * rs.i 分（minutes 的第二个字母），用法同年
+							 */
+							selDateValue.value =  rs.text;
+							selDateValue.innerHtml =  rs.text;
+							/* 
+							 * 返回 false 可以阻止选择框的关闭
+							 * return false;
+							 */
+							/*
+							 * 释放组件资源，释放后将将不能再操作组件
+							 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+							 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+							 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+							 */
+							picker.dispose();
+						});
+					}, false);
+				});
+			})(mui);
+		
+		mui.init({
+			swipeBack:false //启用右滑关闭功能
+		});
+		
+		
+		$("#submit").click(function() {
+		
+			
+				var formdata=$('#custCommentForm').serialize();
+				var delay=layer.open({type:2,shadeClose:false});
+				$.post('index.php?m=zsyx&a=zsyxCustCommentAdd',formdata,function(json){
+					layer.close(delay);
+					if(json.code == 0){
+						layer.open({
+							btn: ['好的'],
+							content: '<p style="text-align:center;">' + json.msg +'</p>',
+							shadeClose: false
+						});
+						
+					}else{
+						layer.open({
+							btn: ['好的'],
+							content: '<p style="text-align:center;">' + json.msg +'</p>',
+							shadeClose: false
+						});						
+						
+					}
+				},'json');
+			
+	
+	});
+	
+	function GetQueryString(name)
+	{
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if(r!=null)return  unescape(r[2]); return null;
+	}
+	
+	function initFormValue(){
+		
+		document.getElementById('cust_code').value = '{$custCommentRow[0]['cust_code']}';
+		document.getElementById('cust_name').value = '{$custCommentRow[0]['cust_name']}';
+		document.getElementById('msisdn').value = '{$custCommentRow[0]['msisdn']}';
+		document.getElementById('household_type').value = '{$custCommentRow[0]['household_type']}';
+		document.getElementById('family').value = '{$custCommentRow[0]['family']}';
+		document.getElementById('housing_property').value = '{$custCommentRow[0]['housing_property']}';
+		document.getElementById('is_gdwl_user').value = '{$custCommentRow[0]['is_gdwl_user']}';
+		document.getElementById('tv').value = '{$custCommentRow[0]['tv']}';
+		document.getElementById('broadband_operator').value = '{$custCommentRow[0]['broadband_operator']}';
+		//document.getElementById('net_expire').value = '{$custCommentRow[0]['net_expire']}';
+		document.getElementById('net_desc').value = '{$custCommentRow[0]['net_desc']}';
+		
+		var selDateValue = $('#selDate')[0];
+		selDateValue.value =  '{$custCommentRow[0]['net_expire']}';
+		selDateValue.innerHtml =  '{$custCommentRow[0]['net_expire']}';
+		
+	
+	}
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+	</script>
+	
+	
+	
+	
+</html>
