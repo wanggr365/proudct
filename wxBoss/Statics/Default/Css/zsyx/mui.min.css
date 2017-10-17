@@ -2250,8 +2250,8 @@ p {
 }
 
 input,select,textarea {
-	font-family: 'Helvetica Neue',Helvetica,sans-serif;
-	font-size: 17px;
+	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+	font-size: 15px;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-tap-highlight-color: transparent
 }
@@ -2367,7 +2367,8 @@ select:focus {
 }
 
 .mui-input-row select {
-	font-size: 17px;
+	font-size: 15px;
+	color:#707370;
 	height: 37px;
 	padding: 0
 }
@@ -2393,7 +2394,7 @@ select:focus {
 }
 
 .mui-input-row label {
-	font-family: 'Helvetica Neue',Helvetica,sans-serif;
+	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
 	line-height: 1.1;
 	float: left;
 	width: 35%;
@@ -2404,7 +2405,7 @@ select:focus {
 	float: right;
 	width: 65%;
 	margin-bottom: 0;
-	padding-left: 0;
+	padding-left: 10%;
 	border: 0
 }
 
@@ -3011,7 +3012,7 @@ select:focus {
 	max-height: 300px;
 	margin-bottom: 0;
 	border-radius: 7px;
-	background-color: #f7f7f7;
+	background-color: white;
 	background-image: none;
 	-webkit-overflow-scrolling: touch
 }
