@@ -324,7 +324,7 @@
 						<div class="mui-slider-item" >
 							<ul class="mui-table-view mui-grid-view mui-grid-9">
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-									<a href="#">
+									<a href="http://wx.qzcatv.cn/wxBossAdmin/index.php?m=index&a=actionClass&actype=channel&fid=19&p=1">
 										<img class="icon-grzx" src="[!IMG]zsyx/xxcx.png?v={$version}" />
 										<div class="mui-media-body" style="color:#4b4b4b;">信息公告</div>
 									</a>
@@ -369,7 +369,7 @@
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
 									<a href="#">
 										<img class="icon-grzx" src="[!IMG]zsyx/wdbj.png?v={$version}" />
-										<div class="mui-media-body" style="color:#4b4b4b;">我的笔记</div>
+										<div class="mui-media-body" style="color:#4b4b4b;">使用排行榜</div>
 									</a>
 								</li>
 								
@@ -402,7 +402,7 @@
 							</td>
 							
 							<td style="width:30%">
-								<h4  id="selDateValue" style="margin-left:5%;font-size:12px;margin-top:1%;">2017-09-13</h4>
+								<h4  id="selDateValue" style="margin-left:5%;font-size:12px;margin-top:1%;">{$stat_date}</h4>
 							</td>
 								
 							<td style="width:10%">
@@ -720,7 +720,10 @@
 		
 		
 				var selDateValue = $('#selDateValue')[0];
-				selDateValue.innerText = getTodayStr();
+				if(selDateValue.innerText == ""){
+					selDateValue.innerText = getTodayStr();
+				}
+				
 				var btns = $('.btn');
 				btns.each(function(i, btn) {
 					btn.addEventListener('tap', function() {
@@ -822,13 +825,13 @@
 						
 						var rates=obj.rates;
 						if(rates != null){
-							var tmpValue = rates.dtv_ins_rate + rates.dtv_ins_unit;
+							var tmpValue = (rates.dtv_ins_rate*100).toFixed(2)+ rates.dtv_ins_unit; 
 							document.getElementById("rates_dtv_ins_rate").innerText= tmpValue;
-							var tmpValue = rates.hd_rate + rates.hd_unit;
+							var tmpValue = (rates.hd_rate*100).toFixed(2) + rates.hd_unit;
 							document.getElementById("rates_hd_rate").innerText= tmpValue;
-							var tmpValue = rates.itv_rate + rates.itv_unit;
+							var tmpValue = (rates.itv_rate*100).toFixed(2) + rates.itv_unit;
 							document.getElementById("rates_itv_rate").innerText= tmpValue;
-							var tmpValue = rates.lan_ins_rate + rates.lan_ins_unit;
+							var tmpValue = (rates.lan_ins_rate*100).toFixed(2) + rates.lan_ins_unit;
 							document.getElementById("rates_lan_ins_rate").innerText= tmpValue;
 						
 						}

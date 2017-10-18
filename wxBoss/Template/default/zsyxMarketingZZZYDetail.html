@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="[!CSS]mui.min.css?v={$version}">
 	<!--App自定义的css-->
 	<link rel="stylesheet" type="text/css" href="[!CSS]app.css?v={$version}"/>
+	<link href="[!CSS]zsyx/agentCSS/layer.css" type="text/css" rel="styleSheet" >
 	<style>
 	
 		#marketingDetailTable table
@@ -122,27 +123,6 @@
 				
 			</div>
 		
-		
-			
-		
-		
-			<div class="mui-media-body" style="overflow:scroll">
-				<!-- 联系电话	客户名	客户编号	地址	套餐名称	到期时间	业务分类	终端类型	套餐类型 -->
-
-				<table id="marketingDetailTable">
-					<tr>
-						<th>联系电话</th>
-						<th>客户名</th>
-						<th>客户编号</th>
-						<th>地址</th>
-						<th>套餐名称</th>
-						<th>终端类型</th>
-						<th>套餐类型</th>
-					<tr>
-				<table>
-			</div>
-			
-
 		<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
 			<ul class="mui-table-view">
 				
@@ -163,6 +143,27 @@
 				</li>
 			</ul>
 		</div>
+			
+		
+		
+			<div class="mui-media-body" style="overflow:scroll">
+				<!-- 联系电话	客户名	客户编号	地址	套餐名称	到期时间	业务分类	终端类型	套餐类型 -->
+
+				<table id="marketingDetailTable">
+					<tr>
+						<th>联系电话</th>
+						<th>客户名</th>
+						<th>客户编号</th>
+						<th>地址</th>
+						<th>套餐名称</th>
+						<th>终端类型</th>
+						<th>套餐类型</th>
+					<tr>
+				<table>
+			</div>
+			
+
+		
 		
 		
 
@@ -174,6 +175,7 @@
 	<SCRIPT src="[!JS]function.js?v={$version}" type="text/JavaScript"></SCRIPT>
 	<script src="[!JS]mui.min.js?v={$version}"></script>
 	<script src="[!JS]echarts-all.js?v={$version}"></script>
+	<script src="[!JS]zsyx/agentJS/layer.m.js"></script>
    <script type="text/JavaScript">
 		mui.init({
 			swipeBack:false //启用右滑关闭功能
@@ -214,6 +216,7 @@
 	
 	
 	function refreshData(busi_type,staff){
+		var delay=layer.open({type:2,shadeClose:false});
 		$("#marketingDetailTable  tr:not(:first)").empty("");
 		var paraStr="busi_type="+busi_type;
 		paraStr += "&staff="+staff;
@@ -242,7 +245,7 @@
 					    	'</tr>' );
 					    }
 					}
-					  
+					layer.close(delay);	  
 					
 				  }
 			});	

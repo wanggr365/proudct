@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="[!CSS]zsyx/mui.min.css?v={$version}">
 	<!--App自定义的css-->
 	<link rel="stylesheet" type="text/css" href="[!CSS]zsyx/app.css?v={$version}"/>
+	<link href="[!CSS]zsyx/agentCSS/layer.css" type="text/css" rel="styleSheet" >
+
 	<style>
 	
 		#marketingDetailTable table
@@ -45,7 +47,9 @@
 		}
 	</style>
    
-		
+	 <?
+	set_time_limit(0);
+	?>	
    
   </head>
   <body>
@@ -159,7 +163,26 @@
 				
 			</div>
 		
-		
+		<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				
+				<li class="mui-table-view-cell" id="custView2">
+					<a href="#" id="custView">关联至客户视图</a>
+				</li>
+				
+				<li class="mui-table-view-cell" id="custComment">
+					<a href="#">备注</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#">联系记录</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#picture"><b>取消</b></a>
+				</li>
+			</ul>
+		</div>
 			
 		
 		
@@ -189,26 +212,7 @@
 
 		</div>
 		
-		<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
-			<ul class="mui-table-view">
-				
-				<li class="mui-table-view-cell" id="custView2">
-					<a href="#" id="custView">关联至客户视图</a>
-				</li>
-				
-				<li class="mui-table-view-cell" id="custComment">
-					<a href="#">备注</a>
-				</li>
-				<li class="mui-table-view-cell">
-					<a href="#">联系记录</a>
-				</li>
-			</ul>
-			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a href="#picture"><b>取消</b></a>
-				</li>
-			</ul>
-		</div>
+		
 		
   </body>
     <script src="[!JS]zsyx/jquery-2.1.4.js?v={$version}"></script>	
@@ -216,6 +220,7 @@
 	<SCRIPT src="[!JS]zsyx/function.js?v={$version}" type="text/JavaScript"></SCRIPT>
 	<script src="[!JS]zsyx/mui.min.js?v={$version}"></script>
 	<script src="[!JS]zsyx/echarts-all.js?v={$version}"></script>
+	<script src="[!JS]zsyx/agentJS/layer.m.js"></script>
    <script type="text/JavaScript">
 		mui.init({
 			swipeBack:false //启用右滑关闭功能
@@ -259,6 +264,7 @@
 	
 	
 	function refreshData(qfmonth,busi_type,subtype){
+		var delay=layer.open({type:2,shadeClose:false});
 		$("#marketingDetailTable  tr:not(:first)").empty("");
 		var paraStr="qfmonth="+qfmonth;
 		paraStr += "&busi_type="+busi_type;
@@ -291,7 +297,7 @@
 						}  
 					
 					}
-						
+					layer.close(delay);	
 					
 				  }
 			});	
