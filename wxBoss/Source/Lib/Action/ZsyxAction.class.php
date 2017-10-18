@@ -402,6 +402,12 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$openid=$_SESSION['openid'];
 		$gridRegister=array();
 		$gridRegister['code']=0;
+		
+		if($_SESSION['stat_date']){
+			$stat_date_tmp=$_SESSION['stat_date'];
+			$stat_date=substr($stat_date_tmp,0,4)."-".substr($stat_date_tmp,4,2)."-".substr($stat_date_tmp,6,2);
+			$this->assign("stat_date",$stat_date);
+		}
 		if($unionid && $_SESSION['login']){
 			
 			//获取工号 姓名
@@ -414,7 +420,13 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 					//$_SESSION['own_org_id'] = $ywyRow[0]['own_org_id'];	
 				    $this->assign("boss_name",$ywyRow[0]['boss_name']);
 					$this->assign("boss_no",$ywyRow[0]['boss_no']);
-					
+					//unset($_SESSION['last_time']);
+					if(!isset($_SESSION['last_time'])||(time()-$_SESSION['last_time'])>1400){
+						//echo 345;
+						$_SESSION['last_time'] = time();						
+						$ywy->where("unionid = '$unionid'")->setInc('month_times',1);
+						$ywy->where("unionid = '$unionid'")->setInc('year_times',1);
+					}
 				}else{
 					$this->display(C('HOME_DEFAULT_THEME').':zsyxLogin');
 				}
@@ -1615,6 +1627,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 				}	
 			}else{
 				$custCommentRow[0]['cust_name']=$cust_name;
+				$custCommentRow[0]['cust_code']=$cust_code;
 			}
 			
 		}else{
