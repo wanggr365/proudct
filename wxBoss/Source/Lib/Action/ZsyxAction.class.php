@@ -32,8 +32,6 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$this->assign(C('AIMEE_PREFIX'),$setting);
 		
 		//$_SESSION['mgr_addr_id'] = '116017';	
-		 $_SESSION['unionid'] = 'oj8Hfvt-3U6l-ZfG6Vyp6bdFXwgr';
-		 $_SESSION['openid'] = 'odrEdt4KBaxcWlnEB4YCkkyWe0wgr';	
 		
 		if(!$_SERVER['version']){
 			$_SERVER['version'] =$this->getVersion();			
@@ -67,7 +65,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
     }
     private function isWx(){
 		
-		if(!$_SESSION['unionid'] || !$_SESSION['openid'] || !$_SESSION['state']){
+		if(!$_SESSION['unionid']){
 			//$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ae00a2623048bf1&redirect_uri=http%3a%2f%2fwww.968816.com.cn%2fqzgdwl%2findex.php%3fm%3dlogin%26a%3dindex&response_type=code&scope=snsapi_base&state=qzgdwl%26qzgdwlIndex#wechat_redirect";
 			
 			$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a20e613be177269&redirect_uri=http%3a%2f%2fwx.qzcatv.cn%2fwxBoss%2findex.php%3fm%3dzsyx%26a%3dzsyxLogin&response_type=code&scope=snsapi_base&state=zsyx%26zsyxIndex#wechat_redirect";
@@ -420,7 +418,12 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 					//$_SESSION['own_org_id'] = $ywyRow[0]['own_org_id'];	
 				    $this->assign("boss_name",$ywyRow[0]['boss_name']);
 					$this->assign("boss_no",$ywyRow[0]['boss_no']);
-					//unset($_SESSION['last_time']);
+					
+					
+					$ywyRecentRow = M('Recent')->Distinct(true)->where("phone is not null and phone <> ''")->field('cust_name,cust_code,phone')->order('create_date desc')->limit(4)->select();
+					$this->assign("ywyRecentRow",$ywyRecentRow);
+					//print_r($ywyRecentRow);
+					
 					if(!isset($_SESSION['last_time'])||(time()-$_SESSION['last_time'])>1400){
 						//echo 345;
 						$_SESSION['last_time'] = time();						
@@ -1063,7 +1066,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$result = array();
 		$unionid = $_SESSION['unionid'];
 		//print_r("unionid为:".$unionid);
-		if($_SESSION['unionid']){
+		//if($_SESSION['unionid']){
 			$data = array();	
 			//获取提交的参数信息
 			$phone = $_POST['phone'];
@@ -1078,13 +1081,16 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 				
 			if($agentUserRow && $agentUserRow['is_confirm'] == 1){
 				if ($password == $agentUserRow['password']){
+					
+					$_SESSION['unionid'] = 'oj8HfvquP3oHLCavPTo5bCROjMmc';
+					$_SESSION['openid'] = 'odrEdt4KBaxcWlnEB4YCkkyWe0wgr';	
 					$_SESSION['phone'] = $agentUserRow['phone'];
 					$_SESSION['org'] = $agentUserRow['org'];
 					$_SESSION['org_type'] = $agentUserRow['org_type'];		
 					$this->assign("agentUserRow",$agentUserRow);
 					$result['code'] = 1;
 					$result['msg'] = "登录成功！";
-					$agentUser->where(array('phone'=>$phone))->setField(array('unionid'=>$unionid,'auto_login'=>$auto_login));
+					$agentUser->where(array('phone'=>$phone))->setField(array('unionid'=>$_SESSION['unionid'],'auto_login'=>$auto_login));
 					$this->agentSaveLog("登录成功！");
 					$_SESSION['login'] =true;
 					echo $this->json($result);
@@ -1102,11 +1108,11 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 				$result['msg'] = "用户名或密码错误！";
 				echo $this->json($result);
 			}
-		}else{
-			$result['code'] = 0;
-			$result['msg'] = "操作超时！";
-			echo $this->json($result);
-		}
+		// }else{
+			// $result['code'] = 0;
+			// $result['msg'] = "操作超时！";
+			// echo $this->json($result);
+		// }
 	}
 	
 	
@@ -1606,6 +1612,44 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 	public function zsyxHoldZDBTDetail(){
 		$this->is_session();	
 		$this->display(C('HOME_DEFAULT_THEME').':zsyxHoldZDBTDetail');
+    }
+	
+	public function zsyxFavorite(){
+		$this->is_session();	
+		
+		$unionid=$_SESSION['unionid'];
+		$openid=$_SESSION['openid'];
+		
+		if($unionid){
+			$Model = M('recent');
+			$sql =" SELECT distinct cust_name,cust_code,  ELT(INTERVAL(CONV(HEX(LEFT(CONVERT(cust_name USING gbk),1)),16,10),   
+					0xB0A1,0xB0C5,0xB2C1,0xB4EE,0xB6EA,0xB7A2,0xB8C1,0xB9FE,0xBBF7,   
+					0xBFA6,0xC0AC,0xC2E8,0xC4C3,0xC5B6,0xC5BE,0xC6DA,0xC8BB,  
+					0xC8F6,0xCBFA,0xCDDA,0xCEF4,0xD1B9,0xD4D1),      
+					'A','B','C','D','E','F','G','H','J','K','L','M','N','O','P','Q','R','S','T','W','X','Y','Z') AS py  
+				FROM `ai_recent` where unionid = '$unionid' order by py ";
+			$result = $Model->query($sql);
+			if($result){
+				print_r("had get custLIst"."\n");
+				$this->assign("custList",$result);
+				$this->assign("custNum",count($result));
+			
+			}else{
+				print_r("hadn't get custLIst"."\n");
+				$this->assign("custList","");
+				$this->assign("custNum",0);
+			}
+			//print_r("sql:".$sql."\n");
+			//print_r("result:".$result[0]['cust_name'].$result[0]['py']."\n");
+		
+		}else{
+			//print_r("unioid is null\n");
+			print_r("had searche custLIst"."\n");
+			$this->assign("custList","");
+			$this->assign("custNum",0);
+		}
+		
+		$this->display(C('HOME_DEFAULT_THEME').':zsyxFavorite');
     }
 	
 	
