@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>泉州广电网络</title>
+    <title>(测试)泉州广电网络掌上营销系统</title>
     <meta name="description" content="light7: Build mobile apps with simple HTML, CSS, and JS components.">
     <meta name="author" content="任行">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -29,10 +29,7 @@
 	
 
     <link rel="apple-touch-icon-precomposed" href="[!IMG]zsyx/apple-touch-icon-114x114.png">
-    <script src="[!JS]zsyx/light7.js"></script>
-	<script src="[!JS]zsyx/jquery-2.1.4.js"></script>		
 	<SCRIPT src="[!JS]zsyx/ywySearch.js" type="text/JavaScript" > </SCRIPT>
-	<SCRIPT src="[!JS]zsyx/function.js" type="text/JavaScript"></SCRIPT>
     <script>
      function login(){	
 	var phone = $("#phone");
@@ -58,7 +55,7 @@
 					shadeClose: false
 				});						
 				if(json.code == 1){			
-					setInterval('window.location.href = "index.php?m=zsyx&a=zsyxIndex"',1500);
+					window.location.href = "index.php?m=zsyx&a=zsyxIndex";
 				}
 			}
 		},'json');
@@ -85,11 +82,11 @@
                     <input type="checkbox" checked="checked" class="checkbox" value="1" name="auto_login"/>
                     <lable>自动登录</lable>
                 </div>
-                <a href="index.php?m=agent&a=agentPassword">忘记密码</a>
+                <!-- <a href="index.php?m=agent&a=agentPassword">忘记密码</a> -->
             </div>
             <div class="login_btn" onclick="login();">登&nbsp;&nbsp;录</div>
         </form>
-        <div class="other_login">
+        <div class="other_login" style="top:80%;">
             <div class="other"></div>
             <span style="padding-top: 6px;"><a href="index.php?m=zsyx&a=zsyxRegister">注册</a></span>
             <div class="other"></div>
@@ -98,12 +95,6 @@
 	
 	
     
-
-    <script src="[!JS]zsyx/light7.js"></script>
-    <script src="[!JS]zsyx/light7-swiper.js"></script>
-    <script src="[!JS]zsyx/light7-city-picker.js"></script>
-    <script src="[!JS]zsyx/light7-swipeout.js"></script>
-    <script src="[!JS]zsyx/demos.js?r=201603281"></script>
 	
 	
   </body>

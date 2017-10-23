@@ -49,13 +49,13 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		
 		$this->assign("DiyField",$this->GetDiyField(26));
 		
-		// $this->isWx();
+		$this->isWx();
 		
 		
 		
 		$useragent = addslashes($_SERVER['HTTP_USER_AGENT']);
 		if(strpos($useragent, 'MicroMessenger') == false && strpos($useragent, 'Windows Phone') == false ){
-			header("location:http://www.968816.com.cn/error.html");
+			//header("location:http://www.968816.com.cn/error.html");
 		}
 	}
 	
@@ -68,7 +68,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		if(!$_SESSION['unionid']){
 			//$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ae00a2623048bf1&redirect_uri=http%3a%2f%2fwww.968816.com.cn%2fqzgdwl%2findex.php%3fm%3dlogin%26a%3dindex&response_type=code&scope=snsapi_base&state=qzgdwl%26qzgdwlIndex#wechat_redirect";
 			
-			$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a20e613be177269&redirect_uri=http%3a%2f%2fwx.qzcatv.cn%2fwxBoss%2findex.php%3fm%3dzsyx%26a%3dzsyxLogin&response_type=code&scope=snsapi_base&state=zsyx%26zsyxIndex#wechat_redirect";
+			$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a20e613be177269&redirect_uri=http%3a%2f%2fwx.qzcatv.cn%2fqzgdwl%2findex.php%3fm%3dunionid%26a%3dindex&response_type=code&scope=snsapi_base&state=zsyx#wechat_redirect";
 
 						
 			header("Location: $url");
@@ -909,7 +909,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 			
 		}else{
 			$result['code'] = 0;
-			$result['msg'] = "操作超时！";
+			$result['msg'] = "操作超时或者未登录！";
 			echo $this->json($result);
 		}
 			
@@ -1062,7 +1062,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		//3、判断是否新增了 自动登录，有则更新auto_login字段值
 		//4、密码正确，则跳转至首页
 		
-		
+		header('Access-Control-Allow-Origin:*');
 		$result = array();
 		$unionid = $_SESSION['unionid'];
 		//print_r("unionid为:".$unionid);
@@ -1082,8 +1082,8 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 			if($agentUserRow && $agentUserRow['is_confirm'] == 1){
 				if ($password == $agentUserRow['password']){
 					
-					$_SESSION['unionid'] = 'oj8HfvquP3oHLCavPTo5bCROjMmc';
-					$_SESSION['openid'] = 'odrEdt4KBaxcWlnEB4YCkkyWe0wgr';	
+					//$_SESSION['unionid'] = 'oj8HfvquP3oHLCavPTo5bCROjMmc';
+					//$_SESSION['openid'] = 'odrEdt4KBaxcWlnEB4YCkkyWe0wgr';	
 					$_SESSION['phone'] = $agentUserRow['phone'];
 					$_SESSION['org'] = $agentUserRow['org'];
 					$_SESSION['org_type'] = $agentUserRow['org_type'];		
@@ -1116,9 +1116,17 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 	}
 	
 	
-	public function zsyxLogout(){		
-		$_SESSION['unionid'] = "";
-		$_SESSION['openid'] = "";
+	public function zsyxLogout(){
+		if($_SESSION['unionid']){
+			$unionid =$_SESSION['unionid'];
+			$data['auto_login'] = 0;
+			$zsyxUser = M('ywy');
+			$zsyxUser->where(array('unionid'=>$unionid))->setField($data);
+		}
+		
+		
+		//$_SESSION['unionid'] = "";
+		//$_SESSION['openid'] = "";
 		$_SESSION['login'] =false;
 		$this->display(C('HOME_DEFAULT_THEME').':zsyxLogin');
 		
@@ -1526,6 +1534,55 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		
 	}
 	
+	public function zsyxPsSave(){	 //短信验证过程	
+		$unionid = $_SESSION['unionid'];
+		$openid = $_SESSION['openid'];
+		$result = array();
+		
+		$phone = $_POST['phone'];
+		$verify_no = $_POST['verify_no'];
+		$password = $_POST['password1'];
+		
+		$data = array();
+		$data['password'] = md5($this->post_check($password));
+		
+		if($_SESSION['unionid']){
+			$agentUser = M('ywy');
+			$agentUserRow = $agentUser->getByPhone($phone);
+			if($agentUserRow){			
+					
+					require_once "ServerAPI.php";
+					$test = new ServerAPI('b71820caab4115163fccea2ebe6a1f6f','f21c592d1317','curl');
+					$resultSMS = $test->verifycode($phone,$verify_no);
+					if($resultSMS['code'] == 200){
+						$result['code'] = 1;
+						$data['auto_login'] = 0;
+						$agentUser->where(array('phone'=>$phone))->setField($data);
+						$result['msg'] = "密码修改成功！";
+						$this->agentSaveLog($phone."  密码修改成功！");
+						$_SESSION['login'] ='false';
+						$this->display(C('HOME_DEFAULT_THEME').':zsyxLogin');
+						
+					}else{
+						$result['code'] = 3;
+						$result['msg'] = "验证失败";
+						$this->agentSaveLog($phone."  ".$verify_no."  "."密码修改验证失败");
+					}
+					
+					echo $this->json($result);
+			}else{
+				$result['code'] = 2;
+				$result['msg'] = "该手机号尚未注册！";
+				echo $this->json($result);
+			}
+		}else{
+			$result['code'] = 0;
+			$result['msg'] = "操作超时！";
+			echo $this->json($result);
+		}		
+		
+	}
+	
 	
 	public function zsyxChange(){		
 		$unionid = $_SESSION['unionid'];
@@ -1613,6 +1670,11 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$this->is_session();	
 		$this->display(C('HOME_DEFAULT_THEME').':zsyxHoldZDBTDetail');
     }
+	
+	public function zsyxPassword(){
+		$this->display(C('HOME_DEFAULT_THEME').':zsyxPassword');
+    }
+	
 	
 	public function zsyxFavorite(){
 		$this->is_session();	

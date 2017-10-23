@@ -142,6 +142,17 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$this->display(C('HOME_DEFAULT_THEME').':ywyCharge');
     }
 	
+	public function ywyRank(){
+		//$this->is_session();
+		$ywy = M('Ywy');
+		//->order('id desc')->limit(20)->select();
+		$ywyRowMonth = $ywy->order('month_times desc')->limit('10')->select();
+		$ywyRowYear = $ywy->order('year_times desc')->limit('10')->select();
+		$this->assign("ywyRowMonth",$ywyRowMonth);
+		$this->assign("ywyRowYear",$ywyRowYear);
+		$this->display(C('HOME_DEFAULT_THEME').':ywyRank');
+    }
+	
 	public function ywyIndex(){
 		$this->is_session();
 		if(isset($_GET['cust_code']) && $_SESSION['unionid']){
@@ -157,7 +168,13 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 						$TOKEN_URL="http://36.250.88.18:8085/ppjj/tvPpjj.action?method=getAcct&accountNo=$acctNo";			
 						//$this->ywySaveLog("账户信息查询：".$acctNo);
 						$values1 = $this->getBoss($TOKEN_URL);
-						$values[1]['attributes']['BALANCE']  = $values1[1]['attributes']['BALANCE']."元";	
+						//echo $values1[1]['attributes']['BALANCE']."元";
+						if($acctNo != "null"){
+							$values[1]['attributes']['BALANCE']  = $values1[1]['attributes']['BALANCE']."元";	
+						}else{
+							$values[1]['attributes']['BALANCE']  = "--元";	
+						}
+						M('Recent')->data(array('cust_code'=>$cust_code,'phone'=>$values[1]['attributes']['MOBILE1'],'cust_name'=>$values[1]['attributes']['CUSTOMERNAME'],'unionid'=>$_SESSION['unionid'],'create_date'=>date('Y-m-d H:i:s',time())))->add();
 						$this->assign("cust",$values[1]['attributes']);		
 						$this->assign("code",100);		
 						$this->assign("cust_code",$cust_code);	
@@ -167,10 +184,18 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 					}elseif($_SESSION['own_org_id'] != "2201"){
 						$values[1]['attributes']['PHONE'] = $values[1]['attributes']['PHONE1']."  ".$values[1]['attributes']['PHONE2']."  ".$values[1]['attributes']['MOBILE1']."  ".$values[1]['attributes']['MOBILE2'];
 						$acctNo = $values[1]['attributes']['ACCOUNTID'];
-						$TOKEN_URL="http://36.250.88.18:8085/ppjj/tvPpjj.action?method=getAcct&accountNo=$acctNo";			
-						//$this->ywySaveLog("账户信息查询：".$acctNo);
+						$TOKEN_URL="http://36.250.88.18:8085/ppjj/tvPpjj.action?method=getAcct&accountNo=$acctNo";	
+						//print_r();
+						//echo $values1[1]['attributes']['BALANCE']."元";
 						$values1 = $this->getBoss($TOKEN_URL);
-						$values[1]['attributes']['BALANCE']  = $values1[1]['attributes']['BALANCE']."元";	
+						if($acctNo != "null"){
+							$values[1]['attributes']['BALANCE']  = $values1[1]['attributes']['BALANCE']."元";	
+						}else{
+							$values[1]['attributes']['BALANCE']  = "--元";	
+						}						
+						//$this->ywySaveLog("账户信息查询：".$acctNo);
+						//$values[1]['attributes']['BALANCE']  = $values1[1]['attributes']['BALANCE']."元";	
+						M('Recent')->data(array('cust_code'=>$cust_code,'phone'=>$values[1]['attributes']['MOBILE1'],'cust_name'=>$values[1]['attributes']['CUSTOMERNAME'],'unionid'=>$_SESSION['unionid'],'create_date'=>date('Y-m-d H:i:s',time())))->add();
 						$this->assign("cust",$values[1]['attributes']);		
 						$this->assign("code",100);	
 						$this->assign("cust_code",$cust_code);	
@@ -247,7 +272,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 	public function is_session(){
 		
 		$unionid = 'oj8HfvquP3oHLCavPTo5bCROjMmc';
-		$openid = 'odrEdt4BSKcs-VvOXocU3joswWDU';
+		$openid = 'odrEdt4KBaxcWlnEB4YCkkyWe0wgr';
 		if($unionid){
 			$_SESSION['unionid'] = $unionid;
 		}
@@ -404,7 +429,11 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 			$values = $this->getBoss($TOKEN_URL);
 			$result['NAME']  = $values[1]['attributes']['NAME'];
 			$result['ACCOUNTNO']  = $values[1]['attributes']['ACCOUNTNO'];
-			$result['BALANCE']  = $values[1]['attributes']['BALANCE']."元";	
+			if($acctNo != "null"){
+				$result['BALANCE']  = $values[1]['attributes']['BALANCE']."元";	
+			}else{
+				$result['BALANCE']  = "--元";					
+			}
 			$result['PAYTYPE']  = $values[1]['attributes']['PAYTYPE'];
 			$result['JOINDATE']  = $values[1]['attributes']['JOINDATE'];
 			$result['OFFICE']  = $values[1]['attributes']['OFFICE'];	
@@ -435,7 +464,13 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 					$result["$i"]['AMOUNT'] = (floatval($value1['attributes']['ORIGINALAMOUNT']) + floatval($value1['attributes']['DISCOUNTAMOUNT']) + floatval($value1['attributes']['ADJUSTAMOUN']))/100;
 					$result["$i"]['PPYAMOUNT'] = (floatval($value1['attributes']['PPYAMOUNT']))/100;
 					$result["$i"]['UNPAYMENTCHARGE'] = $result["$i"]['AMOUNT'] - $result["$i"]['PPYAMOUNT'];
-					$result["$i"]['BALANCE'] = $values1[1]['attributes']['BALANCE'];
+					//$result["$i"]['BALANCE'] = $values1[1]['attributes']['BALANCE'];
+					if($accountNo != "null"){
+						$result["$i"]['BALANCE'] = $values1[1]['attributes']['BALANCE'];
+					}else{
+						$result["$i"]['BALANCE'] = "--";	
+					}
+					
 					//
 				}elseif($value1['tag'] == 'SUBBILL' && $value1['type'] == 'open'){
 					$isSubBill = 1;
@@ -481,7 +516,12 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 					$result["$i"]['PAYMENTTYPE'] = $value1['attributes']['PAYMENTTYPE'];
 					$result["$i"]['APPPAYSTATUS'] = $value1['attributes']['APPPAYSTATUS'];
 					$result["$i"]['APPPAYTYPE'] = $value1['attributes']['APPPAYTYPE'];
-					$result["$i"]['BALANCE'] = $values1[1]['attributes']['BALANCE'];					
+					//$result["$i"]['BALANCE'] = $values1[1]['attributes']['BALANCE'];
+					if($accountNo != "null"){
+						$result["$i"]['BALANCE'] = $values1[1]['attributes']['BALANCE'];
+					}else{
+						$result["$i"]['BALANCE'] = "--";	
+					}					
 					$i++;
 				}
 			}				
@@ -945,6 +985,30 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		
 		$this->display(C('HOME_DEFAULT_THEME').':ywyOrdering');
     }
+	
+	public function ywyCollect(){
+		$cust_code = $_POST['cust_code'];
+		$result = array();
+		
+		if(M('Recent')->where(array('cust_code'=>$cust_code))->save(array('collect'=>1))){
+			$result['code'] = 1;
+		}else{
+		
+		}
+		echo $this->json($result);
+	}
+	
+	public function ywyUnCollect(){
+		$cust_code = $_POST['cust_code'];
+		$result = array();
+		
+		if(M('Recent')->where(array('cust_code'=>$cust_code))->save(array('collect'=>0))){
+			$result['code'] = 1;
+		}else{
+		
+		}
+		echo $this->json($result);
+	}
 	
 	public function test(){
 		define("TOKEN", "ywkfzx");

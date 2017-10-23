@@ -87,7 +87,8 @@ $(document).ready(function() {
 							content: '<p style="text-align:center;">' + json.msg +'</p>',
 							shadeClose: false
 						});
-						window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ae00a2623048bf1&redirect_uri=http%3a%2f%2fwww.968816.com.cn%2fqzgdwl%2findex.php%3fm%3dlogin%26a%3dindex&response_type=code&scope=snsapi_base&state=agent%26agentRegister#wechat_redirect";
+						window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3a20e613be177269&redirect_uri=http%3a%2f%2fwx.qzcatv.cn%2fwxBoss%2findex.php%3fm%3dzsyx%26a%3dzsyxLogin&response_type=code&scope=snsapi_base&state=zsyx%26zsyxRegister#wechat_redirect";
+
 					}else{
 						layer.open({
 							btn: ['好的'],
@@ -95,7 +96,7 @@ $(document).ready(function() {
 							shadeClose: false
 						});						
 						if(json.code == 1){			
-							setInterval('window.location.href = "index.php?m=zsyx&a=zsyxLogin"',1500);
+							setInterval('window.location.href = "index.php?m=zsyx&a=zsyxIndex"',1500);
 						}
 					}
 				},'json');

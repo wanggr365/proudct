@@ -33,17 +33,17 @@ function getWXQR(){
 		$.showIndicator();
 		$.ajax({
 			type:'post',
-			  url: "index.php?m=ywy&a=ywyBuildQR",
+			  url: "http://36.249.111.180:8080/wxBoss/index.php?m=ywy&a=ywyBuildQR",
 			  context: document.body,
 			  dataType:'json',  
 			  data:"own_org_id="+ own_org_id + "&cust_code=" + cust_code + "&money=" + money,
 			  success: function(json){
 					if(json.code == "100"){
 						$("#fuCeng").show();
-						$("#QR").attr('src',"/wxBoss/QRCZ/"+ cust_code + "_" +　money　+ ".png"); 
+						$("#QR").attr('src',"http://36.249.111.180:8080/wxBoss/QRCZ/"+ cust_code + "_" +　money　+ ".png"); 
 						//$("#QR").src = "WXCZ/"+ cust_code + "_" +　money　+ ".jpg";
 						$("#titleQR").html(json.msg);						
-						t = setInterval(imgComplete("/wxBoss/QRCZ/"+ cust_code + "_" +　money　+ ".png"),3000);
+						//t = setInterval(imgComplete("/wxBoss/QRCZ/"+ cust_code + "_" +　money　+ ".png"),3000);
 					}else{
 						$.alert('无法查询到缴费用户','错误');
 					}
@@ -200,6 +200,44 @@ function queryCustInfo()
 					}
 			  }
 		});	
+}
+
+function collect(){
+	if($('#collect').html() != "已收藏"){
+		$.showIndicator();
+		$.ajax({
+			type:'post',
+			url: "index.php?m=ywy&a=ywyCollect",
+			context: document.body,
+			dataType:'json',  
+			data:"cust_code="+cust_code,
+			success: function(json){
+				if(json.code == "1"){					
+					$.hideIndicator();
+					$("#collect").html('已收藏');
+				}else{
+					
+				}
+			}
+		});
+	}else{
+		$.showIndicator();
+		$.ajax({
+			type:'post',
+			url: "index.php?m=ywy&a=ywyUnCollect",
+			context: document.body,
+			dataType:'json',  
+			data:"cust_code="+cust_code,
+			success: function(json){
+				if(json.code == "1"){					
+					$.hideIndicator();
+					$("#collect").html('收藏');
+				}else{
+					
+				}
+			}
+		});
+	}
 }
 
 function unBunding()

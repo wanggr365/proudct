@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>&nbsp;泉州广电网络</title>
+		<title>(测试)泉州广电网络掌上营销系统</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -293,8 +293,8 @@
 								<div class="mui-media-body">工号：{$boss_no}</div>
 								</td>
 									
-								<td style="width: 40%;text-align:right">
-										<a href="#middlePopover" >网格：{$displayGridName}</a>
+								<td style="width: 40%;text-align:right" >
+										<a href="#middlePopover" style="color:white">网格：{$displayGridName}</a>
 								</td>
 							<tr>
 						</table>
@@ -322,7 +322,7 @@
 					<div class="mui-slider-group" >
 						
 						<div class="mui-slider-item" >
-							<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-bottom: 18px;">
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
 									<a href="http://wx.qzcatv.cn/wxBossAdmin/index.php?m=index&a=actionClass&actype=channel&fid=19&p=1">
 										<img class="icon-grzx" src="[!IMG]zsyx/xxcx.png?v={$version}" />
@@ -330,7 +330,7 @@
 									</a>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-									<a href="index.php?m=zsyx&a=zsyxInsertAddress&unionid={$unionid}">
+									<a href="index.php?m=ywy&a=ywyCustCodeSearch&unionid={$unionid}">
 										<img class="icon-grzx" src="[!IMG]zsyx/khcx.png?v={$version}" />
 										<div class="mui-media-body" style="color:#4b4b4b;">客户查询</div>
 									</a>
@@ -360,14 +360,14 @@
 									</a>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
-									<a href="#">
+									<a href="index.php?m=zsyx&a=zsyxFavorite">
 										<img class="icon-grzx" src="[!IMG]zsyx/wdsc.png?v={$version}" />
 										<div class="mui-media-body" style="color:#4b4b4b;">我的收藏</div>
 									</a>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-									<a href="#">
+									<a href="index.php?m=ywy&a=ywyRank">
 										<img class="icon-grzx" src="[!IMG]zsyx/wdbj.png?v={$version}" />
 										<div class="mui-media-body" style="color:#4b4b4b;">使用排行榜</div>
 									</a>
@@ -375,23 +375,10 @@
 								
 							</ul>
 						</div>
-						<div class="mui-slider-item" >
-							<ul class="mui-table-view mui-grid-view mui-grid-9">
-								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-									<a href="#">
-										<img class="icon-grzx" src="[!IMG]zsyx/syph.png?v={$version}" />
-										<div class="mui-media-body" style="color:#4b4b4b;">待开发</div>
-									</a>
-								</li>
-								
-							</ul>
-						</div>
+						
 	
 					</div>
-					<div class="mui-slider-indicator">
-						<div class="mui-indicator mui-active"></div>
-						<div class="mui-indicator"></div>
-					</div>
+					
 				</div>	
 			
 				<div id="dataTitle" style="background-color:#d9d9d9;border:5px ;color:#777777;border:5px solid #d9d9d9">
@@ -421,61 +408,61 @@
 						<div class="mui-slider-item" >
 							<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top:10px;">
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">昨日数字新增</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">昨日数字新增</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div  id="new_ins_info_dtv_ins_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#fb5d06;">...</div>
+										<div  id="new_ins_info_dtv_ins_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#fb5d06;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">昨日高清新增</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">昨日高清新增</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="new_ins_info_hd_ins_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#419768;">...</div>
+										<div id="new_ins_info_hd_ins_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#419768;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">昨日互动新增</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">昨日互动新增</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="new_ins_info_itv_ins_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#2d8cd0;">...</div>
+										<div id="new_ins_info_itv_ins_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#2d8cd0;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">昨日宽带新增</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">昨日宽带新增</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="new_ins_info_lan_ins_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#d0442d;">...</div>
-								</li>
-								
-								
-								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">基础开通率</div>
-								</li>
-								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="rates_dtv_ins_rate" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#624e6a;">...</div>
+										<div id="new_ins_info_lan_ins_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#d0442d;">...</div>
 								</li>
 								
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">高清占有率</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">基础开通率</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="rates_hd_rate" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#c5a64b;">...</div>
+										<div id="rates_dtv_ins_rate" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#624e6a;">...</div>
+								</li>
+								
+								
+								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">高清占有率</div>
+								</li>
+								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
+										<div id="rates_hd_rate" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#c5a64b;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div  class="mui-media-body" style="color:#4b4b4b;">互动渗透率</div>
+										<div  class="mui-media-body small-font" style="color:#4b4b4b;">互动渗透率</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="rates_itv_rate" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#7d8b98;">...</div>
+										<div id="rates_itv_rate" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#7d8b98;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">宽带开通率</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">宽带开通率</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div  id="rates_lan_ins_rate" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#9e57cd;">...</div>
+										<div  id="rates_lan_ins_rate" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#9e57cd;">...</div>
 								</li>
 								
 								
@@ -487,61 +474,61 @@
 								
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">当月数字净增</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">当月数字净增</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div  id="net_ins_info_dtv_ins_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#fb5d06;">...</div>
+										<div  id="net_ins_info_dtv_ins_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#fb5d06;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">当月高清净增</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">当月高清净增</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="net_ins_info_hd_ins_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#419768;">...</div>
-								</li>
-								
-								
-								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">当月互动净增</div>
-								</li>
-								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="net_ins_info_itv_ins_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#2d8cd0;">...</div>
+										<div id="net_ins_info_hd_ins_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#419768;">...</div>
 								</li>
 								
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">当月宽带净增</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">当月互动净增</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="net_ins_info_lan_ins_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#d0442d;">...</div>
+										<div id="net_ins_info_itv_ins_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#2d8cd0;">...</div>
+								</li>
+								
+								
+								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">当月宽带净增</div>
+								</li>
+								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
+										<div id="net_ins_info_lan_ins_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#d0442d;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">当月数字离网</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">当月数字离网</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="off_info_dtv_off_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#624e6a;">...</div>
+										<div id="off_info_dtv_off_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#624e6a;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">当月高清离网</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">当月高清离网</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="off_info_hd_off_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#c5a64b;">...</div>
+										<div id="off_info_hd_off_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#c5a64b;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">当月互动离网</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">当月互动离网</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="off_info_itv_off_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#7d8b98;">...</div>
+										<div id="off_info_itv_off_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#7d8b98;">...</div>
 								</li>
 								
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-										<div class="mui-media-body" style="color:#4b4b4b;">当月宽带离网</div>
+										<div class="mui-media-body small-font" style="color:#4b4b4b;">当月宽带离网</div>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3" style="padding: 2px 6px;">
-										<div id="off_info_lan_off_cnt" class="mui-media-body" style="color:white;border-radius: 8px;background-color:#9e57cd;">...</div>
+										<div id="off_info_lan_off_cnt" class="mui-media-body small-font" style="color:white;border-radius: 8px;background-color:#9e57cd;">...</div>
 								</li>
 								
 							</ul>
@@ -560,6 +547,35 @@
 				
 				
 				</div>
+				
+				<div id="recentContacts" style="background-color:#d9d9d9;border:5px ;color:#777777;border:5px solid #d9d9d9">
+					<table style="table-layout:fixed;">
+						<tr style="height:20px;">
+							<td style="width:60%">
+								<h4 style="margin-left:5%;font-size:12px;margin-top:1%;">最近联系人</h4>
+							</td>		
+						<tr>
+					</table>
+	
+				</div>
+				<div id="contactsDetail" class="mui-slider" style="margin-top:0px;width:90%;margin-left:5%;margin-right:5%;font-size:0.7em" >
+					<div class="mui-slider-group" >
+						
+							
+						<div class="mui-slider-item" >
+							<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top:0;">
+								<foreach name="ywyRecentRow" item="yr">
+								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
+									<a href="tel:{$yr.phone}">
+										<img class="icon-grzx" src="[!IMG]zsyx/wywx.png?v={$version}" />
+										<div class="mui-media-body" style="color:#4b4b4b;">{$yr.cust_name}</div>
+									</a>
+								</li>	
+								</foreach>
+							</ul>
+						</div>
+					</div>
+				</div>
 			</div>
 			
 			<div id="tool" class="mui-control-content">
@@ -569,19 +585,19 @@
 						<div class="mui-slider-item" >
 							<ul class="mui-table-view mui-grid-view mui-grid-9">
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-									<a href="#">
+									<a href="http://www.968816.cn/cmtsapp/index.html">
 										<img class="icon-grzx" src="[!IMG]zsyx/cmts.png?v={$version}" />
 										<div class="mui-media-body" style="color:#4b4b4b;">CMTS网管</div>
 									</a>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-									<a href="#">
+									<a href="http://eoc.968816.cn/eocwhat/index.jhtml">
 										<img class="icon-grzx" src="[!IMG]zsyx/eoc.png?v={$version}" />
 										<div class="mui-media-body" style="color:#4b4b4b;">EOC网管</div>
 									</a>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-									<a href="#">
+									<a href="http://wx.qzcatv.cn/ProjectApproval/index.php?m=pa&a=paLogin">
 										<img class="icon-grzx" src="[!IMG]zsyx/lxgc.png?v={$version}" />
 										<div class="mui-media-body" style="color:#4b4b4b;">零星工程</div>
 									</a>
@@ -605,23 +621,12 @@
 									</a>
 								</li>
 								<li class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
-									<a href="#">
+									<a href="http://wx.qzcatv.cn/wxbt/index.php?m=pa&a=paLogin">
 										<img class="icon-grzx" src="[!IMG]zsyx/wxbt.png?v={$version}" />
 										<div class="mui-media-body" style="color:#4b4b4b;">微信报停</div>
 									</a>
 								</li>
 								
-								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-									<a href="#">
-										<img class="icon-grzx" src="[!IMG]zsyx/syph.png?v={$version}" />
-										<div class="mui-media-body" style="color:#4b4b4b;">使用排行</div>
-									</a>
-								</li>
-								
-							</ul>
-						</div>
-						<div class="mui-slider-item" >
-							<ul class="mui-table-view mui-grid-view mui-grid-9">
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
 									<a href="#">
 										<img class="icon-grzx" src="[!IMG]zsyx/syph.png?v={$version}" />
@@ -633,10 +638,10 @@
 						</div>
 	
 					</div>
-					<div class="mui-slider-indicator">
+					<!-- <div class="mui-slider-indicator">
 						<div class="mui-indicator mui-active"></div>
 						<div class="mui-indicator"></div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			
@@ -665,7 +670,7 @@
 					</a>
 				</li>
 				<li class="mui-table-view-cell" >
-					<a class="mui-navigate-right" href="index.php?m=zsyx&a=zsyxMarketing&unionid={$unionid}">
+					<a class="mui-navigate-right" href="index.php?m=zsyx&a=zsyxPassword">
 						密码修改
 					</a>
 				</li>
@@ -716,6 +721,13 @@
 					for (var k in o)
 					if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 					return fmt;
+				}
+				
+				if(mui.os.android){
+					x = document.getElementsByClassName("small-font");
+					for (i = 0; i < x.length; i++) {
+						x[i].style.fontSize="13px";
+					}					
 				}
 		
 		
@@ -779,7 +791,11 @@
 
 
 		function getTodayStr(){
-			var dd= (new Date()).Format('yyyy-MM-dd');
+			//var dd= (new Date()).Format('yyyy-MM-dd');
+			//var dd1= new Date(new Date()-24*60*60*1000);
+			
+			var dd1 = new Date("08 01 2017");
+			var dd = dd1.Format('yyyy-MM-dd');
 			return dd;	
 		}
 		
@@ -868,6 +884,18 @@
 			}
 		
 		}
+		
+		//客服电话
+		/*document.getElementById("tel").addEventListener('tap', function() {
+			var a = this;
+			if(mui.os.plus){
+				plus.device.dial("17706051106");
+			}else{
+				location.href = 'tel:17706051106';
+			}
+			
+		});*/
+		
 		$(document).ready(function(){ 
 			var selDateValue = $('#selDateValue')[0];
 			var dateValue=selDateValue.innerText;
@@ -875,6 +903,7 @@
 			
 			
 		}); 
+		
 		
 		
 	</script>

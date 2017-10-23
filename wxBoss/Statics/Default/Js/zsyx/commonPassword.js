@@ -30,8 +30,8 @@ function sendCode(obj){
 		var resultResult = checkPassword(password1.val());
 		var result = isPhoneNum(phone.val());
 		if(result && resultResult){
-			alert("doPostBack");
-			doPostBack('index.php?m=agent&a=agentPsSendSMS',backFunc1,$('#registerForm').serialize());//serialize
+			//alert("doPostBack");
+			doPostBack('index.php?m=zsyx&a=sendSMS',backFunc1,$('#registerForm').serialize());	
 		}
 	}
 }
@@ -49,7 +49,7 @@ function doPostBack(url,backFunc,queryParam) {
     });
 }
 function backFunc1(json){
-	alert("backFunc1");
+	//alert("backFunc1");
 	json = JSON.parse(json);
     if(json.code == 0){
 		layer.open({
