@@ -47,7 +47,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		
 		
 		
-		$this->assign("DiyField",$this->GetDiyField(26));
+		
 		
 		$this->isWx();
 		
@@ -401,9 +401,15 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 		$gridRegister=array();
 		$gridRegister['code']=0;
 		
+		
+		
 		if($_SESSION['stat_date']){
 			$stat_date_tmp=$_SESSION['stat_date'];
 			$stat_date=substr($stat_date_tmp,0,4)."-".substr($stat_date_tmp,4,2)."-".substr($stat_date_tmp,6,2);
+			
+			if($_SESSION['stat_date'] == 'NaN-Na-N'){
+				$_SESSION['stat_date'] = '2017-08-01';
+			}
 			$this->assign("stat_date",$stat_date);
 		}
 		if($unionid && $_SESSION['login']){
@@ -444,6 +450,22 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 			$boss_no = $ywyRow[0]['boss_no'];
 			$boss_name = $ywyRow[0]['boss_name'];
 			$ywy2wg = M('ywy2wg')->where("boss_no='$boss_no' and  boss_name= '$boss_name' ")->select();
+			
+			if(count($ywy2wg) ==  1){
+				$mgrAddrId = $ywy2wg[0]['MGR_ADDR_ID'];
+			}elseif(count($ywy2wg) > 1){
+				$mgrAddrId="";
+				foreach ($ywy2wg as $value) {
+					if($mgrAddrId != ""){
+						$mgrAddrId = $mgrAddrId.",".$value['MGR_ADDR_ID'];
+					}else{
+						$mgrAddrId = $mgrAddrId.$value['MGR_ADDR_ID'];
+					}
+				}
+			}else{
+				$mgrAddrId ="";
+			}
+			
 			if($ywy2wg && $unionid && $_SESSION['login']){
 				if($ywy2wg[0]['MGR_ADDR_ID']){
 					
@@ -458,9 +480,10 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 						$this->assign("displayGridName",$_SESSION['displayGridName']);
 					}
 					
-					$mgrAddrId = $ywy2wg[0]['MGR_ADDR_ID'];
+					//$mgrAddrId = $ywy2wg[0]['MGR_ADDR_ID'];
 					$mgrAddrTree= M('mgr_addr_tree');
-					$gridInfo = $mgrAddrTree->where("PARENT_MGR_ADDR_ID='$mgrAddrId' or MGR_ADDR_ID='$mgrAddrId' ")->select();
+					//$gridInfo = $mgrAddrTree->where("PARENT_MGR_ADDR_ID='$mgrAddrId' or MGR_ADDR_ID='$mgrAddrId' ")->select();
+					$gridInfo  = $mgrAddrTree -> query("select * from ai_mgr_addr_tree where PARENT_MGR_ADDR_ID in ($mgrAddrId) or MGR_ADDR_ID in ($mgrAddrId)");
 					if( $gridInfo ){
 						$this->assign("gridTree",$gridInfo);
 						$this->assign("gridTreeNodeNum",count($gridInfo));
@@ -504,6 +527,7 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 					$_SESSION['own_org_id'] = $ywyRow[0]['own_org_id'];	
 				    $this->assign("boss_name",$ywyRow[0]['boss_name']);
 					$this->assign("boss_no",$ywyRow[0]['boss_no']);
+					$this->assign("company",$ywyRow[0]['company']);
 				}else{
 					$this->display(C('HOME_DEFAULT_THEME').':zsyxLogin');
 				}
@@ -1082,8 +1106,8 @@ echo "<br>"." ".WEB_PUBLIC_PATH."";*/
 			if($agentUserRow && $agentUserRow['is_confirm'] == 1){
 				if ($password == $agentUserRow['password']){
 					
-					//$_SESSION['unionid'] = 'oj8HfvquP3oHLCavPTo5bCROjMmc';
-					//$_SESSION['openid'] = 'odrEdt4KBaxcWlnEB4YCkkyWe0wgr';	
+					$_SESSION['unionid'] = 'oj8HfvquP3oHLCavPTo5bCROjMmc';
+					$_SESSION['openid'] = 'odrEdt4KBaxcWlnEB4YCkkyWe0wgr';	
 					$_SESSION['phone'] = $agentUserRow['phone'];
 					$_SESSION['org'] = $agentUserRow['org'];
 					$_SESSION['org_type'] = $agentUserRow['org_type'];		

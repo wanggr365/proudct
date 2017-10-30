@@ -206,6 +206,7 @@
 	<script src="[!JS]zsyx/mui.min.js?v={$version}"></script>
 	<script src="[!JS]zsyx/echarts-all.js?v={$version}"></script>
 	<script src="[!JS]zsyx/agentJS/layer.m.js"></script>
+	<script src="[!JS]common.function.js"></script>
    <script type="text/JavaScript">
 		mui.init({
 			swipeBack:false //启用右滑关闭功能
@@ -256,9 +257,16 @@
 					if(typeof(obj) != "undefined"){
 						for(var i=0; i<obj.length; i++)  
 					    {  	//联系电话	客户名	客户编号	地址	套餐名称	到期时间	业务分类	终端类型	套餐类型
-                        
+							var phoneStr = (obj[i].phone).replace(/,/g," ");
+							var phoneArray = phoneStr.split(" ");
+							var phone="";
+							for (var k=0;k<phoneArray.length;k++)
+							{
+								var tmpStr = '<a href="tel:'+phoneArray[k]+'">'+phoneArray[k]+'&nbsp'+'</a>';
+								phone = phone + tmpStr;
+							}
 					    	$("#marketingDetailTable").append('<tr>'+
-					    	'<td>' + obj[i].phone + '</td>'  + 
+							'<td>' + phone + '</td>'  + 
 					    	'<td>' + obj[i].acct_name + '</td>'  + 
 							'<td><a href="#picture" class="mui-btn mui-btn-primary mui-btn-block mui-btn-outlined" style="padding: 5px 20px;">' + obj[i].acct_code +'</a></td>'+
 
@@ -271,7 +279,8 @@
 					    	'</tr>' );
 					    }  
 					}
-					layer.close(delay);	    
+					layer.close(delay);	   
+					watermark('{$company}{$boss_name}');					
 				  }
 			});	
 			

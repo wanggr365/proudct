@@ -548,6 +548,27 @@
 				
 				</div>
 				
+				<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+					<ul class="mui-table-view">
+						
+						<li class="mui-table-view-cell" id="custView2">
+							<a href="#" id="custView">关联至客户视图</a>
+						</li>
+						
+						<li class="mui-table-view-cell" id="custComment">
+							<a href="#">备注</a>
+						</li>
+						<li class="mui-table-view-cell" id="call">
+							<a href="#">拨打电话</a>
+						</li>
+					</ul>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a href="#picture"><b>取消</b></a>
+						</li>
+					</ul>
+				</div>
+				
 				<div id="recentContacts" style="background-color:#d9d9d9;border:5px ;color:#777777;border:5px solid #d9d9d9">
 					<table style="table-layout:fixed;">
 						<tr style="height:20px;">
@@ -563,10 +584,10 @@
 						
 							
 						<div class="mui-slider-item" >
-							<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top:0;">
+							<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top:0;" id="recent">
 								<foreach name="ywyRecentRow" item="yr">
 								<li class="mui-table-view-cell mui-media mui-col-xs-3  mui-col-sm-3 mui-col-md-3">
-									<a href="tel:{$yr.phone}">
+									<a href="#picture?cust_code={$yr.cust_code}&cust_name={$yr.cust_name}&phone={$yr.phone}">
 										<img class="icon-grzx" src="[!IMG]zsyx/wywx.png?v={$version}" />
 										<div class="mui-media-body" style="color:#4b4b4b;">{$yr.cust_name}</div>
 									</a>
@@ -732,7 +753,7 @@
 		
 		
 				var selDateValue = $('#selDateValue')[0];
-				if(selDateValue.innerText == ""){
+				if(selDateValue.innerText == "" || selDateValue.innerText.indexOf('N') > -1){
 					selDateValue.innerText = getTodayStr();
 				}
 				
@@ -794,7 +815,8 @@
 			//var dd= (new Date()).Format('yyyy-MM-dd');
 			//var dd1= new Date(new Date()-24*60*60*1000);
 			
-			var dd1 = new Date("08 01 2017");
+			//var dd1 = new Date("08 01 2017");August 
+			var dd1 = new Date("August 01 2017");
 			var dd = dd1.Format('yyyy-MM-dd');
 			return dd;	
 		}
@@ -904,6 +926,45 @@
 			
 		}); 
 		
+		window.cust_code = ""; 
+		window.cust_name = ""; 
+		window.phone="";
+		mui('#recent').on('tap', 'li>a', function() {
+			//<a href="#picture?cust_code={$yr.cust_code}&cust_name={$yr.cust_name}&phone={$yr.phone}">
+				var a = this;
+				var href = a.hash;
+				var k1 = href.indexOf("cust_code=",0);
+				var k2= href.indexOf("&",0);
+				var k3 = href.indexOf("cust_name=",0);
+				var k4 = href.indexOf("phone=",0);
+				
+				cust_code = href.substring(k1+10,k2);
+				cust_name = href.substring(k3+10,k4);
+				phone = href.substring(k4+6,href.length);
+				mui('#picture').popover('toggle');
+		});
+		
+		
+		mui('#custView2').on('tap', 'a', function() {
+				var url="index.php?m=ywy&a=ywyIndex&cust_code="+cust_code;
+				window.location.href=url; 
+				return false;
+		});
+		
+		mui('#custComment').on('tap', 'a', function() {
+				var url="index.php?m=zsyx&a=zsyxCustComment&cust_code="+cust_code+"&cust_name="+cust_name;
+				window.location.href=url; 
+				return false;
+		});
+		
+		mui('#call').on('tap', 'a', function() {
+			var a = this;
+			if(mui.os.plus){
+				plus.device.dial(phone);
+			}else{
+				location.href = 'tel:'+phone;
+			}
+		});
 		
 		
 	</script>
